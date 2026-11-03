@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UnCivil Servant: Class Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap"
+    />
+    <link rel="stylesheet" href="hark.css" />
+    <link rel="stylesheet" href="hark-hero.css" />
+    <style>
+      .x-bar { justify-self: stretch; justify-content: space-between; border-radius: var(--r-pill); }
+      .x-brand { padding: 0 10px 0 12px; font: var(--type-label); color: var(--text-primary-on); white-space: nowrap; }
+      .x-tabs, .x-seg { display: flex; min-width: 0; overflow-x: auto; scrollbar-width: none; border-radius: var(--r-pill); background: var(--fill-segment); }
+      .x-tabs button { flex: none; padding: 8px 14px; border: 0; border-radius: var(--r-pill); background: none; font: var(--type-label); color: var(--text-secondary-on); cursor: pointer; }
+      .x-tabs button[aria-selected="true"] { background: var(--fill-primary-on); color: var(--text-primary); }
+      .x-right { display: flex; align-items: center; gap: 6px; flex: none; }
+      .x-seg { display: inline-flex; background: var(--fill-tertiary); padding: 3px; gap: 2px; }
+      .x-seg button { flex: none; padding: 5px 12px; border: 0; border-radius: var(--r-pill); background: none; font: var(--type-tag); color: var(--text-secondary); cursor: pointer; }
+      .x-seg button[aria-pressed="true"] { background: var(--fill-primary); color: var(--text-primary-on); }
+      .x-banner { font: var(--type-caption); color: var(--text-secondary); text-align: center; }
+      .x-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+      .x-tools .btn, .x-card .btn { cursor: pointer; }
+      .x-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+      .x-card { padding: 18px 22px; border-radius: var(--r-m); background: var(--fill-tertiary); display: grid; gap: 10px; scroll-margin-top: 90px; transition: opacity var(--dur-quick) ease; }
+      .x-card.is-cursor { box-shadow: inset 0 0 0 1.5px var(--fill-primary); }
+      .x-card.is-here { box-shadow: inset 0 0 0 2px var(--fill-system-orange); }
+      .x-card.is-past { opacity: 0.55; }
+      .x-card.is-past h3::before { content: "\2713\00a0"; color: var(--fill-system-green); }
+      .x-card__top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+      .x-card h3 { font: var(--type-heading); flex: 1 1 260px; }
+      .x-time { font: var(--type-label); color: var(--text-secondary); min-width: 9ch; }
+      .x-card ul { margin: 0; padding-left: 18px; }
+      .x-card li + li { margin-top: 4px; }
+      .x-break { padding: 6px 22px; border-top: 1px dashed var(--stroke-primary); border-bottom: 1px dashed var(--stroke-primary); font: var(--type-caption); color: var(--text-secondary); }
+      .x-flag { padding: 10px 14px; border-radius: var(--r-s); border-left: 3px solid var(--fill-system-orange); background: var(--fill-primary-on); font: var(--type-small); }
+      .x-flag--new { border-left-color: var(--fill-system-red); }
+      .x-flag b { font-weight: var(--weight-medium); }
+      .x-input, .x-area { font: var(--type-body); color: var(--text-primary); background: var(--fill-primary-on); border: 1px solid var(--stroke-primary); border-radius: var(--r-s); padding: 6px 10px; }
+      .x-input { width: 100%; max-width: 420px; }
+      .x-blank { width: 16ch; padding: 2px 8px; margin: 0 2px; }
+      .x-blank.is-ok { border-color: var(--fill-system-green); box-shadow: inset 0 0 0 1px var(--fill-system-green); }
+      .x-blank.is-no { border-color: var(--fill-system-orange); box-shadow: inset 0 0 0 1px var(--fill-system-orange); }
+      .x-ans { font: var(--type-tag); color: var(--fill-system-orange); }
+      .x-area { width: 100%; min-height: 70px; resize: vertical; font: var(--type-small); }
+      .x-area[readonly] { background: var(--fill-tertiary); min-height: 160px; }
+      .x-reveal { font: var(--type-small); }
+      .x-reveal small { color: var(--text-secondary); }
+      .x-num { font: var(--type-label); color: var(--text-secondary); }
+      .x-wid { display: grid; gap: 8px; padding: 14px 16px; border-radius: var(--r-s); background: var(--fill-primary-on); font: var(--type-small); }
+      .x-wid h4 { font: var(--type-label); font-weight: var(--weight-medium); }
+      .x-card .x-wid .x-area { background: var(--fill-tertiary); }
+      .x-radio { display: flex; flex-wrap: wrap; gap: 0 16px; }
+      .x-radio label { display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap); cursor: pointer; }
+      .x-more { font: var(--type-small); }
+      .x-more summary { display: flex; align-items: center; min-height: var(--tap); font: var(--type-label); cursor: pointer; }
+      .x-more summary::before { content: "\25B8\00a0"; color: var(--text-secondary); }
+      .x-more[open] summary::before { content: "\25BE\00a0"; }
+      @media (max-width: 599px) { .x-tabs button { min-height: var(--tap); } }
+    </style>
+  </head>
+  <body>
+    <div class="page" id="top">
+      <header class="nav glass x-bar">
+        <nav class="x-tabs" role="tablist" aria-label="Tabs" id="tabs"></nav>
+        <span class="x-right">
+          <span class="chip chip--solid" id="score">Quiz 0/14</span>
+          <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch to dark theme"></button>
+        </span>
+      </header>
+      <p class="x-banner">Notes live only while this tab is open. Copy or download before closing.</p>
+      <main class="main">
+        <section class="section" id="briefing" data-tab="Briefing">
+          <section class="hero">
+            <div class="hero__copy">
+              <p class="hero__eyebrow">FELTG UnCivil Servant · virtual · Deborah J. Hopkins</p>
+              <h1>First question: can't or won't?</h1>
+              <p class="hero__sub">Class companion for a Marine Corps NAF supervisor at MCCS Okinawa.</p>
+              <p class="hero__meta">Wed Nov 4 to Thu Nov 5, 2026 · 12 sessions</p>
+            </div>
+          </section>
+          <div class="cards" id="takeaways"></div>
+          <div class="x-flag">
+            <b>NAF is different.</b> Substantial-evidence standard for misconduct and performance. A Letter of Requirement comes before a PIP. Appeals go to the Head of the Local NAFI, then HQMC (MR); no MSPB.
+          </div>
+        </section>
+
+        <section class="section" id="day1" data-tab="Day 1" hidden></section>
+        <section class="section" id="day2" data-tab="Day 2" hidden></section>
+
+        <section class="section" id="cheat" data-tab="Cheat Sheet" hidden>
+          <div class="head"><h2>Misconduct is won't; performance is can't.</h2></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col"></th><th scope="col">Misconduct</th><th scope="col">Performance</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Law</th><td>Ch. 75</td><td>Ch. 43</td></tr>
+                <tr><th scope="row">Proof, Title 5</td><td>Preponderance (~51%)</td><td>Substantial (~40%)</td></tr>
+                <tr class="is-highlight"><th scope="row">Proof, NAF</th><td>Substantial</td><td>Substantial</td></tr>
+                <tr><th scope="row">Tools</th><td>Reprimand, suspension, demotion, removal</td><td>Reassignment, demotion, removal</td></tr>
+                <tr><th scope="row">Mitigation on appeal</th><td>Yes</td><td>No</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="head"><h2>Douglas factors scorer</h2><p class="head__sub">Mark each factor; the tally updates as you go.</p></div>
+          <section class="stats" id="tally"></section>
+          <ol class="x-list" id="douglas"></ol>
+        </section>
+
+        <section class="section" id="quiz" data-tab="Quiz" hidden>
+          <div class="head"><h2>Guess, reveal, then confirm in class.</h2><p class="head__sub">Each "Confirmed" adds to the score in the top bar.</p></div>
+          <ol class="x-list" id="quizlist"></ol>
+        </section>
+
+        <section class="section" id="notes" data-tab="Notes" hidden>
+          <div class="head"><h2>Everything you wrote, in one place.</h2></div>
+          <div class="x-tools">
+            <button class="btn" type="button" id="copy">Copy all</button>
+            <button class="btn" type="button" id="dl">Download .txt</button>
+            <span class="fineprint" id="hint" aria-live="polite"></span>
+          </div>
+          <div class="x-card">
+            <h3>Session notes</h3>
+            <textarea class="x-area" id="allnotes" readonly aria-label="All session notes"></textarea>
+          </div>
+          <div class="x-card">
+            <h3>Questions to ask</h3>
+            <textarea class="x-area" id="n-questions" aria-label="Questions to ask">Does the Oct 5, 2026 change apply to NAF?
+Does the DoW Ch. 75 memo affect NAF?
+Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
+          </div>
+          <div class="x-card"><h3>Instructor said</h3><textarea class="x-area" id="n-instructor" aria-label="Instructor said"></textarea></div>
+          <div class="x-card"><h3>Apply to my team</h3><textarea class="x-area" id="n-team" aria-label="Apply to my team"></textarea></div>
+        </section>
+      </main>
+      <footer class="foot">
+        <p>Personal study aid from the FELTG handout. Not legal advice.</p>
+        <a class="badge" href="https://hark.com/" target="_blank" rel="noopener"><span class="hark-mark"></span><span>built by hark</span></a>
+      </footer>
+    </div>
+    <script src="hark.js"></script>
+    <script>
+      // ---- Data. Add sessions, points, blanks or callouts here. ----
+      // blanks: sentences with [answer|alternate] gaps. callout: { type: "naf" | "new", text }.
+      const DAYS = [
+        { n: 1, id: "day1", label: "Wed Nov 4", wd: ["Wed", "Thu"] },
+        { n: 2, id: "day2", label: "Thu Nov 5", wd: ["Thu", "Fri"] },
+      ];
+      const BREAKS = [
+        ["10:00", "10:10", "Break"], ["11:10", "11:20", "Break"], ["12:10", "13:10", "Lunch"],
+        ["14:00", "14:10", "Break"], ["15:00", "15:10", "Break"],
+      ];
+      const SESSIONS = [
+        { id: "d1-1", day: 1, start: "9:00", end: "10:00", title: "Accountability & Supervisory Authority; Discipline Theory", pages: "pp. 9-17",
+          points: ["80-10-10 rule: focus on the toxic 10%.", "58% of feds say supervisors don't deal with poor performers.",
+            "Balanced civil service: employees get fair treatment and the right to challenge; management assigns work, holds people accountable, and disciplines.",
+            "Toxic coworkers cause stress-related health effects (Surgeon General 2022).",
+            "\"Stay away from the yellow donut\": do what the law requires; skip legal-but-useless extra steps.",
+            "Three lenses: law, science, strategy."],
+          blanks: ["Formal discipline counts as a [prior].", "Is progressive discipline mandatory? [No]", "Formal discipline is written and placed in the [OPF]."] },
+        { id: "d1-2", day: 1, start: "10:10", end: "11:10", title: "Problem Employee; Performance vs Misconduct", pages: "pp. 17-22",
+          points: ["Misconduct = won't (Ch. 75); performance = can't (Ch. 43).",
+            "Flow: try everything first (coaching, counseling, training, reassignment) → determine status → performance or misconduct?",
+            "Last Rites talk: be truthful, give 2-3 days, encourage counsel, get a signed agreement (binding: Green v. GSA 2000; offering short-notice resignation isn't coercion: Parrott v. DHS 2008).",
+            "Burdens: crime ~95%, Title 5 misconduct ~51% preponderance, performance ~40% substantial.",
+            "Misconduct penalties can be mitigated on appeal; performance actions cannot."],
+          blanks: ["Misconduct = \"[won]'t\", performance = \"[can]'t\"."],
+          callout: { type: "naf", text: "NAF uses substantial evidence for both (MCO P12000.11A, 5007.3)." } },
+        { id: "d1-3", day: 1, start: "11:20", end: "12:10", title: "Five Elements: Rule, Notice, Misconduct", pages: "pp. 23-27",
+          points: ["Rule → Notice → Misconduct → Penalty → Due Process.",
+            "A rule can come from law, regulation, policy, the supervisor's directive, or \"should have known\"; it needs a nexus to the job.",
+            "Notice: group notice, a specific directive (email is great), training, or common knowledge.",
+            "Proof: observation, witnesses, video or logs, admission.",
+            "Hillen credibility factors: opportunity to observe, character, prior inconsistent statement, bias, consistency with evidence, improbability, demeanor."],
+          blanks: ["Lowest discipline a supervisor can issue = [Letter of Reprimand|reprimand]."],
+          widgets: [{ type: "case", title: "Dock 4 credibility",
+            text: ["A vehicle was scratched.", "Chris (accuser): clear view from 50 ft, but texted \"I'm going to get Taylor fired today\" at 0830, and was pacing and shouting.",
+              "Taylor (forklift operator): says they were on break; calm, offered the forklift for inspection. Key log shows Taylor had Forklift #3 from 0845 to 1100."],
+            picker: { label: "More credible", options: ["Chris", "Taylor"] },
+            reveal: "Taylor is more credible; Chris's bias and demeanor outweigh the sightline. Never judge one factor alone." }] },
+        { id: "d1-4", day: 1, start: "13:10", end: "14:00", title: "Penalty Defense & Due Process", pages: "pp. 29-34",
+          points: ["The deciding official considers only the proposal and the response (no ex parte).",
+            "Douglas v. VA (1981): the agency must justify taking the employee's paycheck.",
+            "Proposing official (usually 1st-level) states charges and proposes a penalty.",
+            "Deciding official (usually 2nd-level; can be the same person, Robinson v. VA) rules on each charge and can't exceed the proposal.",
+            "Two classic errors: ex parte input (e.g., a coworker emails the decider new information) and charging what you can't prove.",
+            "After the proposal, the proposer and decider stop discussing it.",
+            "Coffee-pot hypo: Charlie twisted Ed's arm for the last coffee; walk through the 5 elements."],
+          callout: { type: "new", text: "Oct 5, 2026: Douglas factors replaced by \"totality of the circumstances\" for Title 5/42. Does it reach NAF?" },
+          widgets: [{ type: "poll", title: "Union asks for a new deciding official due to a long acquaintance.",
+            options: ["A. Grant", "B. Ask for specifics", "C. Deny", "D. Cancel"] }] },
+        { id: "d1-5", day: 1, start: "14:10", end: "15:00", title: "Procedures & Appeals; MSPB vs NAF", pages: "pp. 35-44",
+          points: ["Suspensions of 14 days or fewer avoid an MSPB appeal; consider a reprimand in lieu of suspension.",
+            "Reprimand: no warning needed; usually stays in the OPF 2 years.",
+            "Suspension, demotion, or removal: propose → employee responds orally and in writing with a representative → decide (affirm, mitigate, none).",
+            "EO 13839: decide a removal or demotion within 15 business days of the response.",
+            "Reprimand in lieu of suspension: the employee accepts responsibility and waives appeal rights (sample p. 99).",
+            "Last Chance Agreement: removal held in abeyance for 2 years; a breach means immediate removal (Reveles v. DHS 2008).",
+            "An MSPB appeal costs about $100K (GAO); agencies lose about 1 in 5.",
+            "Cows kill 20x more people than sharks: removal is less scary than it feels.",
+            "Other forums: EEOC, OSC, arbitration."],
+          callout: [{ type: "naf", text: "NAF appeals go to the Head of the Local NAFI (15 days), then HQMC (MR) (15 days). Final; no MSPB." },
+            { type: "naf", text: "Step 1: hearing within 60 days if requested, impartial hearing officer, decision within 60 days. Step 2: decision within 60 days." }],
+          widgets: [{ type: "timeline", rows: [["Aug 1", "Misconduct"], ["Aug 8", "Proposal"], ["Aug 18", "Written response"], ["Aug 25", "Oral response"], ["Sep 8", "Decision"]] }] },
+        { id: "d1-6", day: 1, start: "15:10", end: "16:00", title: "Workshop: Devon case", pages: "pp. 45-46",
+          points: ["A GS-14 claimed an MS degree she doesn't have; strong record.",
+            "Devon: GS-14, hired about 10 years ago from the private sector; claimed an MS (has a BS) on her first and later applications.",
+            "No position required the degree. Outstanding ratings and awards; well liked."],
+          picker: { label: "Your penalty", options: ["None", "Reprimand", "Suspension", "Demotion", "Removal"] },
+          widgets: [{ type: "notes", boxes: ["Aggravating", "Mitigating"] },
+            { type: "reveal", title: "Question to ask", text: "Was the degree used to rank or select her? Workbook p. 105." }] },
+        { id: "d2-1", day: 2, start: "9:00", end: "10:00", title: "Performance Accountability; Preparing a Case", pages: "pp. 50-59",
+          points: ["You need a critical element.", "Standards are MUVA: Measurable, Understandable, Verifiable, Achievable.",
+            "Dunning: \"If you're incompetent, you can't know you're incompetent.\"",
+            "Why supervisors don't act (MSPB 2019): agency culture 83%, no upper-management support 78%, weak HR support 75%, didn't understand the process 60%.",
+            "Two officials are required: one proposes, one decides.",
+            "Step 1: read the plan; you need a critical element. MUVA comes from OPM guidance of June 17, 2025.",
+            "More job discretion means less objectivity is needed (Graham v. Air Force).",
+            "Clarify vague standards BEFORE the PIP (Khan v. DOJ, Jan 29, 2026).",
+            "Step 2: show unacceptable performance before AND during the PIP (Santos v. NASA 2021). Document it with notes, a journal, email, a WIGI denial, or the mid-year review.",
+            "Step 3: allow 60-90 days, give a warm-up on new standards, and watch for ratings, awards, or WIGIs due during the PIP (Harris v. DVA 2010)."],
+          blanks: ["Good documentation = what you told them, the [date], and the [evidence]."],
+          callout: [{ type: "naf", text: "Letter of Requirement with a 30-60 day observation period before the PIP." },
+            { type: "naf", text: "The Letter of Requirement lists deficiencies, the required level, supervisor support, and the 30-60 day observation period." }] },
+        { id: "d2-2", day: 2, start: "10:10", end: "11:10", title: "First- and Higher-Level Supervisor Roles", pages: "pp. 60-68",
+          points: ["A 30-day PIP always satisfies the MSPB.", "Meet weekly and email after each meeting.",
+            "A PIP can flesh out standards but can't create new ones (Johnson v. Interior).",
+            "30 days always works (Lee v. EPA); 17 days was OK, 3 days was not.",
+            "Retention level example: Meets = 26-30 widgets a week; Unacceptable = 19 or fewer.",
+            "\"The PIP is the final exam, not the time to learn the job.\"",
+            "The FELTG Way: meet weekly, critique orally, then email the same day or the next restating it and setting next week's assignments, with a copy to your advisor.",
+            "Passes: a warning letter, then removal if unacceptable again within 1 year of the PIP start, with no new PIP (Thomas v. DoD 2003).",
+            "Fails: reassign, Last Rites, or propose removal (the decider can mitigate to demotion).",
+            "A good incident = what you told them + what they did instead.",
+            "Decision letter: cites the elements and incidents, summarizes the response, rules on each incident, sets an effective date (COB), and gives appeal rights.",
+            "A disability request mid-PIP: pause, accommodate, and don't lower the standard."],
+          blanks: ["A 30-day PIP has [4|four] weekly cycles.", "Copy the follow-up email to your [advisor]."],
+          widgets: [{ type: "reveal", title: "PIP letter must include", text: "Failed critical elements; minimum retention level; length; consequences; weekly meetings; first-week assignment; contact person." }] },
+        { id: "d2-3", day: 2, start: "11:20", end: "12:10", title: "Performance Under Ch. 75; Workshop", pages: "pp. 68-71",
+          points: ["The Sept 30, 2025 Pentagon memo says use Ch. 75 for poor performers.",
+            "The Sept 30, 2025 memo \"Separation of Employees with Unacceptable Performance\": act \"with speed and conviction\"; DoW components use Ch. 75 removal procedures, subject to bargaining.",
+            "SMART vs MUVA.",
+            "Workshop: write 2 critical elements (Level 1 and Level 3) for a GS-301-5 Admin Assistant: filing of more than 5,000 docs a year, monthly meeting minutes, a supply cabinet of about 100 items."],
+          callout: { type: "new", text: "Does it affect NAF?" },
+          widgets: [{ type: "notes", boxes: ["Draft critical elements"] },
+            { type: "reveal", title: "Sample answer", text: "Records Mgmt. Level 3 = at least 90% of a quarterly sample of 50+ docs filed and labeled correctly, at least 95% of tasks on time, and any document located within 2 business days for at least 90% of requests. Level 1 = more than 10% misfiled, under 95% on time, or any unauthorized destruction." }] },
+        { id: "d2-4", day: 2, start: "13:10", end: "14:00", title: "EEO Process", pages: "pp. 71-80",
+          points: ["Reprisal is about 54% of findings.", "Document issues when they happen.",
+            "Bases: race, color, national origin, religion, age, sex (including pregnancy, orientation, gender identity), disability, genetic info, reprisal.",
+            "Five theories: intentional, disparate impact, hostile environment, reasonable accommodation, reprisal.",
+            "Defense: a specific job-related reason, the same standard for similar employees, contemporaneous records.",
+            "Hostile environment: severe or pervasive. Key question: \"What did I do once I knew or should have known?\"",
+            "Reprisal = protected activity + adverse action + causal link; it can succeed even if the original complaint fails.",
+            "Process: counseling → formal complaint → investigation → hearing or FAD → EEOC appeal → federal court."],
+          widgets: [{ type: "reveal", title: "Self-check", text: "Same decision if the protected trait were different? Backed by objective evidence?" }] },
+        { id: "d2-5", day: 2, start: "14:10", end: "15:00", title: "Reasonable Accommodation: Disability", pages: "pp. 80-89",
+          points: ["No magic words; it's an interactive process.", "Order: current job → vacant same grade → lower grade → removal.",
+            "The Rehab Act uses ADA standards; the ADAAA (2009) broadened \"disability.\"",
+            "Analysis: disabled → qualified → requested → granted/denied → undue hardship?",
+            "Keep medical records in separate confidential files.",
+            "Essential functions: why the job exists, few others can do it, specialized, the PD.",
+            "Requests are prospective. \"Reasonable\" means effective; the employee's preference isn't required.",
+            "Not undue hardship: a flexible schedule used for 4 years; an empty office for ADHD."],
+          widgets: [{ type: "notes", boxes: ["Hypo: Emory, GS-5 mail clerk, 10 lb lift limit (PD says 35 lb), 6 hrs/week of PT, no leave left. Options?"] },
+            { type: "poll", title: "Ellen reports Charlie sleeping at his desk. Is that an RA request?", options: ["Yes", "No"] },
+            { type: "reveal", title: "Reveal", text: "No: a request links a medical condition to a work need, from the employee or their representative." }] },
+        { id: "d2-6", day: 2, start: "15:10", end: "16:00", title: "Pregnancy & Religion", pages: "pp. 89-95",
+          points: ["PWFA covers known limitations.", "Religion requires substantial undue hardship (Groff).",
+            "PWFA: still \"qualified\" if the limitation is temporary (generally 40 weeks for pregnancy) and can be accommodated. Only a communication of need is required; medical documentation only when reasonable.",
+            "Religion (Groff): substantial undue hardship based on objective facts, not hypotheticals; admin costs and occasional overtime don't count.",
+            "OPM memo of July 16, 2025: telework for Sabbath, fasting, or prayer is often a low-cost option."] },
+      ];
+      const QUIZ = [
+        ["Which are formal discipline?", "Reprimand, suspension, demotion, removal only."],
+        ["T/F: Removal for coming back 15 minutes late from lunch.", "Possibly, with priors."],
+        ["T/F: Removal for leaking mismanagement to the press.", "False: whistleblower protection."],
+        ["Most effective tool for an unacceptable performer?", "Listen."],
+        ["Most common cause of poor performance?", "Listen."],
+        ["T/F: A crime means mandatory removal.", "False."],
+        ["T/F: You must treat all employees the same.", "False: a documented reason allows different treatment."],
+        ["Lowest discipline a supervisor can issue?", "Letter of Reprimand."],
+        ["The union wants a new deciding official. What now?", "Likely: ask for specifics."],
+        ["T/F: Survives the PIP, slips at 3 months, needs a new PIP.", "False (within a year, Thomas)."],
+        ["T/F: The minimum PIP is 60 days.", "False: 30 days."],
+        ["T/F: They must fail all critical elements.", "False: one is enough."],
+        ["T/F: Misconduct needs a higher burden than performance.", "True for Title 5; NAF uses substantial evidence for both."],
+        ["A coworker reports Charlie sleeping. Is that an RA request?", "No."],
+      ];
+      const TAKEAWAYS = [
+        ["Can't or won't", "Can't = performance (Ch. 43). Won't = misconduct (Ch. 75)."],
+        ["Check status first", "Probationary and temp staff have fewer protections."],
+        ["5 elements", "Rule, Notice, Misconduct, Penalty, Due Process."],
+        ["Formal discipline", "Only reprimand, suspension, demotion, removal."],
+        ["Performance", "Document before the PIP. 30 days is enough. Failing one critical element is enough."],
+        ["EEO", "Contemporaneous records plus consistent treatment protect you."],
+      ];
+      const DOUGLAS = ["Nature and seriousness", "Job level", "Past discipline", "Work record", "Supervisor confidence", "Consistency with others",
+        "Table of penalties", "Notoriety", "Clarity of notice", "Rehabilitation potential", "Mitigating circumstances", "Alternative sanctions"];
+
+      // ---- State (memory only) ----
+      const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "briefing" };
+      const $ = (s, r = document) => r.querySelector(s);
+      const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+      const seg = (name, opts, val) => `<span class="x-seg" role="group" aria-label="${esc(name)}">${opts.map((o) => `<button type="button" data-v="${esc(o)}" aria-pressed="${o === val}">${esc(o)}</button>`).join("")}</span>`;
+      const setSeg = (g, v) => g.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === v));
+
+      // ---- Times ----
+      const mins = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+      function fmt(t, day) {
+        let m = mins(t) + (S.jst ? 14 * 60 : 0), plus = m >= 1440 ? 1 : 0; m %= 1440;
+        const h = Math.floor(m / 60), mm = String(m % 60).padStart(2, "0"), ap = h < 12 ? "AM" : "PM";
+        const s = `${h % 12 || 12}:${mm}`;
+        return S.jst ? `${day.wd[plus]} ${s} ${ap}` : `${s}${h >= 12 ? " PM" : ""}`;
+      }
+      function updateTimes() {
+        document.querySelectorAll("[data-start]").forEach((el) => {
+          const day = DAYS[el.dataset.day - 1];
+          el.textContent = `${fmt(el.dataset.start, day)}–${fmt(el.dataset.end, day)}`;
+        });
+        document.querySelectorAll(".x-timeseg").forEach((g) => setSeg(g, S.jst ? "Japan time" : "Agenda times"));
+      }
+
+      // ---- Tabs ----
+      const panels = [...document.querySelectorAll("[data-tab]")];
+      $("#tabs").innerHTML = panels.map((p) => `<button type="button" role="tab" data-id="${p.id}" aria-selected="${p.id === S.tab}">${p.dataset.tab}</button>`).join("");
+      function show(id) {
+        S.tab = id;
+        panels.forEach((p) => (p.hidden = p.id !== id));
+        document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === id));
+        if (id === "notes") $("#allnotes").value = sessionNotes();
+        window.scrollTo(0, 0);
+      }
+      $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) show(b.dataset.id); });
+
+      // ---- Briefing ----
+      $("#takeaways").innerHTML = TAKEAWAYS.map(([h, t], i) => `<div><h3>${i + 1}. ${esc(h)}</h3><p>${esc(t)}</p></div>`).join("");
+
+      // ---- Day tabs ----
+      function blankHTML(text, id, k) {
+        return text.split(/(\[[^\]]+\])/).map((part, j) => part.startsWith("[")
+          ? `<input class="x-input x-blank" data-ans="${esc(part.slice(1, -1))}" aria-label="Blank" autocomplete="off"><span class="x-ans"></span>`
+          : esc(part)).join("");
+      }
+      const reveal = (t, x) => `<details class="x-more"><summary>${esc(t)}</summary><p>${esc(x)}</p></details>`;
+      const note = (s, k) => `<label class="x-wid"><span class="x-num">${esc(k)}</span><textarea class="x-area" data-note="${s.id}:${esc(k)}" aria-label="${esc(k)}">${esc(S.notes[s.id + ":" + k] || "")}</textarea></label>`;
+      function widgetHTML(w, s) {
+        if (w.type === "case") return `<div class="x-wid"><h4>${esc(w.title)}</h4>${w.text.map((t) => `<p>${esc(t)}</p>`).join("")}
+          <p class="x-tools"><span class="x-num">${esc(w.picker.label)}</span>${seg(w.picker.label, w.picker.options, S.pick[s.id])}</p>${reveal("Reveal", w.reveal)}</div>`;
+        if (w.type === "poll") return `<div class="x-wid"><h4>Poll: ${esc(w.title)}</h4><div class="x-radio" role="radiogroup" aria-label="Your guess">${w.options.map((o) =>
+          `<label><input type="radio" name="poll-${s.id}" value="${esc(o)}"${S.pick[s.id] === o ? " checked" : ""}> ${esc(o)}</label>`).join("")}</div>${note(s, "Poll notes")}</div>`;
+        if (w.type === "timeline") return `<ol class="timeline">${w.rows.map(([d, t]) => `<li><p class="timeline__when">${esc(d)}</p><div class="timeline__what">${esc(t)}</div></li>`).join("")}</ol>`;
+        if (w.type === "notes") return `<div class="pair">${w.boxes.map((k) => note(s, k)).join("")}</div>`;
+        if (w.type === "reveal") return reveal(w.title, w.text);
+        return "";
+      }
+      function sessionHTML(s) {
+        const c = [].concat(s.callout || []).map((o) => `<div class="x-flag ${o.type === "new" ? "x-flag--new" : ""}"><b>${o.type === "new" ? "New" : "NAF"}:</b> ${esc(o.text)}</div>`).join("");
+        const w = (s.widgets || []).map((x) => widgetHTML(x, s)).join("");
+        const b = (s.blanks || []).length ? `<div class="x-blanks">${s.blanks.map((t, k) => `<p>${blankHTML(t, s.id, k)}</p>`).join("")}<p><button class="btn" type="button" data-act="check">Check</button></p></div>` : "";
+        const p = s.picker ? `<p class="x-tools"><span class="x-num">${esc(s.picker.label)}</span>${seg(s.picker.label, s.picker.options, S.pick[s.id])}</p>` : "";
+        return `<li class="x-card" id="${s.id}" data-id="${s.id}">
+          <div class="x-card__top"><span class="x-time" data-day="${s.day}" data-start="${s.start}" data-end="${s.end}"></span><h3>${esc(s.title)}</h3><span class="pill">${esc(s.pages)}</span></div>
+          <ul>${s.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>${b}${w}${c}${p}
+          <textarea class="x-area" data-note="${s.id}" placeholder="Notes" aria-label="Notes for ${esc(s.title)}">${esc(S.notes[s.id] || "")}</textarea>
+          <p><button class="btn" type="button" data-act="here">I'm here</button></p>
+        </li>`;
+      }
+      function renderDay(day) {
+        const items = SESSIONS.filter((s) => s.day === day.n).map((s) => ({ t: mins(s.start), html: sessionHTML(s) }))
+          .concat(BREAKS.map(([a, b, l]) => ({ t: mins(a), html: `<li class="x-break">${l} · <span data-day="${day.n}" data-start="${a}" data-end="${b}"></span></li>` })))
+          .sort((x, y) => x.t - y.t);
+        $("#" + day.id).innerHTML = `<div class="head"><p class="head__eyebrow">Day ${day.n} · ${day.label}</p><h2>${day.n === 1 ? "Discipline: from rule to appeal." : "Performance, EEO and accommodation."}</h2></div>
+          <div class="x-tools">${seg("Time zone", ["Agenda times", "Japan time"], "Agenda times").replace("x-seg", "x-seg x-timeseg")}
+            <button class="btn" type="button" data-act="prev">Prev (K)</button><button class="btn" type="button" data-act="next">Next (J)</button></div>
+          <p class="fineprint">Japan time assumes US Eastern (+14h; 9:00 AM ET Nov 4 = 11:00 PM JST). Handout doesn't state the zone; check your class link.</p>
+          <ol class="x-list">${items.map((i) => i.html).join("")}</ol>`;
+      }
+      DAYS.forEach(renderDay);
+      updateTimes();
+
+      const daySessions = (n) => SESSIONS.filter((s) => s.day === n);
+      function paint(n) {
+        daySessions(n).forEach((s, i) => {
+          const el = document.getElementById(s.id), h = S.here[n];
+          el.classList.toggle("is-here", h === i);
+          el.classList.toggle("is-past", h != null && i < h);
+          el.classList.toggle("is-cursor", S.cur[n] === i);
+        });
+      }
+      function move(n, d) {
+        const list = daySessions(n);
+        S.cur[n] = Math.max(0, Math.min(list.length - 1, S.cur[n] + d));
+        paint(n);
+        document.getElementById(list[S.cur[n]].id).scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      }
+      const norm = (v) => v.trim().toLowerCase().replace(/\s+/g, " ");
+      DAYS.forEach((day) => {
+        const root = $("#" + day.id);
+        root.addEventListener("click", (e) => {
+          const b = e.target.closest("button"); if (!b) return;
+          const card = b.closest(".x-card"), act = b.dataset.act;
+          if (act === "prev") move(day.n, -1);
+          else if (act === "next") move(day.n, 1);
+          else if (act === "here") { const i = daySessions(day.n).findIndex((s) => s.id === card.dataset.id); S.here[day.n] = i; S.cur[day.n] = i; paint(day.n); }
+          else if (act === "check") card.querySelectorAll(".x-blank").forEach((inp) => {
+            const ans = inp.dataset.ans.split("|"), ok = ans.some((a) => norm(a) === norm(inp.value));
+            inp.classList.toggle("is-ok", ok); inp.classList.toggle("is-no", !ok);
+            inp.nextElementSibling.textContent = ok ? "" : ans[0];
+          });
+          else if (b.closest(".x-timeseg")) { S.jst = b.dataset.v === "Japan time"; updateTimes(); }
+          else if (b.closest(".x-seg") && card) { S.pick[card.dataset.id] = b.dataset.v; setSeg(b.parentNode, b.dataset.v); }
+        });
+        root.addEventListener("input", (e) => { if (e.target.dataset.note) S.notes[e.target.dataset.note] = e.target.value; });
+        root.addEventListener("change", (e) => { if (e.target.type === "radio") S.pick[e.target.closest(".x-card").dataset.id] = e.target.value; });
+        paint(day.n);
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey || e.metaKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+        const day = DAYS.find((d) => d.id === S.tab); if (!day) return;
+        if (e.key === "j" || e.key === "J") move(day.n, 1);
+        if (e.key === "k" || e.key === "K") move(day.n, -1);
+      });
+
+      // ---- Douglas scorer ----
+      const LEVELS = ["Mitigating", "Neutral", "Aggravating"];
+      $("#douglas").innerHTML = DOUGLAS.map((f, i) => `<li class="x-card x-card__top" data-i="${i}"><span class="x-num">${i + 1}</span><h3>${esc(f)}</h3>${seg(f, LEVELS, "Neutral")}</li>`).join("");
+      function tally() {
+        $("#tally").innerHTML = LEVELS.map((l) => `<div class="stat"><span class="stat__fig">${S.douglas.filter((v) => v === l).length}</span><span class="stat__label">${l}</span></div>`).join("");
+      }
+      $("#douglas").addEventListener("click", (e) => {
+        const b = e.target.closest("button"); if (!b) return;
+        S.douglas[b.closest("li").dataset.i] = b.dataset.v; setSeg(b.parentNode, b.dataset.v); tally();
+      });
+      tally();
+
+      // ---- Quiz ----
+      $("#quizlist").innerHTML = QUIZ.map(([q, a], i) => `<li class="x-card" data-i="${i}">
+        <div class="x-card__top"><span class="x-num">${i + 1}</span><h3>${esc(q)}</h3></div>
+        <p class="x-tools"><input class="x-input" placeholder="Your guess" aria-label="Your guess for question ${i + 1}"><button class="btn" type="button" data-act="reveal">Reveal</button></p>
+        <div hidden class="x-tools"><p class="x-reveal"><small>Likely answer (from handout):</small> ${esc(a)}</p>${seg("Result", ["Confirmed", "Different"], null)}</div>
+      </li>`).join("");
+      function score() { $("#score").textContent = `Quiz ${S.quiz.filter((v) => v === "Confirmed").length}/${QUIZ.length}`; }
+      $("#quizlist").addEventListener("click", (e) => {
+        const b = e.target.closest("button"); if (!b) return;
+        const li = b.closest("li");
+        if (b.dataset.act === "reveal") { li.querySelector("[hidden]").hidden = false; b.remove(); return; }
+        S.quiz[li.dataset.i] = b.dataset.v; setSeg(b.parentNode, b.dataset.v); score();
+      });
+      score();
+
+      // ---- Notes ----
+      function sessionNotes() {
+        return SESSIONS.map((s) => {
+          const parts = Object.keys(S.notes).filter((k) => (k === s.id || k.startsWith(s.id + ":")) && S.notes[k].trim())
+            .map((k) => (k === s.id ? "" : k.slice(s.id.length + 1) + ": ") + S.notes[k].trim());
+          return parts.length ? `[Day ${s.day}] ${s.start}-${s.end} ${s.title}\n${parts.join("\n")}` : "";
+        }).filter(Boolean).join("\n\n") || "(No session notes yet.)";
+      }
+      function allText() {
+        const sec = (h, id) => `== ${h} ==\n${$(id).value.trim()}`;
+        const pk = SESSIONS.filter((s) => S.pick[s.id]).map((s) => `${s.title}: ${S.pick[s.id]}`).join("\n");
+        return ["UnCivil Servant: Class Companion (FELTG, Nov 4-5, 2026)", `== Session notes ==\n${sessionNotes()}`, pk && `== Workshop picks ==\n${pk}`,
+          sec("Questions to ask", "#n-questions"), sec("Instructor said", "#n-instructor"), sec("Apply to my team", "#n-team"),
+          `== Quiz ==\n${QUIZ.map((q, i) => `${i + 1}. ${q[0]} ${S.quiz[i] || "-"}`).join("\n")}`].filter(Boolean).join("\n\n");
+      }
+      $("#copy").addEventListener("click", async () => {
+        const t = allText();
+        try { await navigator.clipboard.writeText(t); $("#hint").textContent = "Copied."; }
+        catch (err) { const a = $("#allnotes"); a.value = t; a.focus(); a.select(); $("#hint").textContent = "Selected. Press Ctrl+C to copy."; }
+      });
+      $("#dl").addEventListener("click", () => {
+        const url = URL.createObjectURL(new Blob([allText()], { type: "text/plain" }));
+        const a = document.createElement("a"); a.href = url; a.download = "feltg-class-notes.txt"; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+    </script>
+  </body>
+</html>
