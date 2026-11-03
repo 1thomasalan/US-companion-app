@@ -75,7 +75,7 @@
           <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch to dark theme"></button>
         </span>
       </header>
-      <p class="x-banner">Notes live only while this tab is open. Copy or download before closing.</p>
+      <p class="x-banner" id="savebanner">Your notes and answers save automatically on this device and browser. Download a copy to keep a backup.</p>
       <main class="main">
         <section class="section" id="briefing" data-tab="Briefing">
           <section class="hero">
@@ -126,6 +126,7 @@
           <div class="x-tools">
             <button class="btn" type="button" id="copy">Copy all</button>
             <button class="btn" type="button" id="dl">Download .txt</button>
+            <button class="btn" type="button" id="wipe">Clear saved notes</button>
             <span class="fineprint" id="hint" aria-live="polite"></span>
           </div>
           <div class="x-card">
@@ -308,6 +309,14 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
 
       // ---- State (memory only) ----
       const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "briefing" };
+      // ---- Local save (this device only) ----
+      const KEY = "uscc-class-companion-v1";
+      let SAVED = {};
+      try { SAVED = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (err) { SAVED = {}; }
+      ["notes", "pick", "here"].forEach((k) => { if (SAVED[k] && typeof SAVED[k] === "object") S[k] = SAVED[k]; });
+      if (Array.isArray(SAVED.quiz)) SAVED.quiz.forEach((v, i) => { if (i < S.quiz.length) S.quiz[i] = v; });
+      if (Array.isArray(SAVED.douglas)) SAVED.douglas.forEach((v, i) => { if (i < S.douglas.length) S.douglas[i] = v; });
+      if (typeof SAVED.jst === "boolean") S.jst = SAVED.jst;
       const $ = (s, r = document) => r.querySelector(s);
       const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
       const seg = (name, opts, val) => `<span class="x-seg" role="group" aria-label="${esc(name)}">${opts.map((o) => `<button type="button" data-v="${esc(o)}" aria-pressed="${o === val}">${esc(o)}</button>`).join("")}</span>`;
@@ -481,6 +490,45 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         const url = URL.createObjectURL(new Blob([allText()], { type: "text/plain" }));
         const a = document.createElement("a"); a.href = url; a.download = "feltg-class-notes.txt"; document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+      // ---- Local save: restore and autosave ----
+      const FREE = ["n-questions", "n-instructor", "n-team"];
+      const blanks = () => [...document.querySelectorAll(".x-blank")];
+      const guesses = () => [...document.querySelectorAll("#quizlist .x-input")];
+      function snapshot() {
+        return { v: 1, saved: Date.now(), notes: S.notes, pick: S.pick, here: S.here, quiz: S.quiz, douglas: S.douglas, jst: S.jst, tab: S.tab,
+          free: Object.fromEntries(FREE.map((id) => [id, $("#" + id).value])),
+          blanks: blanks().map((b) => b.value), guesses: guesses().map((g) => g.value),
+          revealed: [...document.querySelectorAll("#quizlist li")].map((li) => !li.querySelector("[hidden]")) };
+      }
+      let saveT = null, saveOK = true, wiping = false;
+      function saveNow() {
+        if (wiping) return;
+        try { localStorage.setItem(KEY, JSON.stringify(snapshot())); saveOK = true; }
+        catch (err) { if (saveOK) $("#savebanner").textContent = "This browser isn't letting the page save. Download your notes before closing."; saveOK = false; }
+      }
+      const queueSave = () => { clearTimeout(saveT); saveT = setTimeout(saveNow, 400); };
+      ["input", "change", "click"].forEach((ev) => document.addEventListener(ev, queueSave));
+      window.addEventListener("pagehide", saveNow);
+      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveNow(); });
+      (function restore() {
+        if (SAVED.free) FREE.forEach((id) => { if (typeof SAVED.free[id] === "string") $("#" + id).value = SAVED.free[id]; });
+        if (Array.isArray(SAVED.blanks)) blanks().forEach((b, i) => { if (SAVED.blanks[i]) b.value = SAVED.blanks[i]; });
+        if (Array.isArray(SAVED.guesses)) guesses().forEach((g, i) => { if (SAVED.guesses[i]) g.value = SAVED.guesses[i]; });
+        document.querySelectorAll("#quizlist li").forEach((li, i) => {
+          if (SAVED.revealed && SAVED.revealed[i]) { li.querySelector("[hidden]").hidden = false; const b = li.querySelector('[data-act="reveal"]'); if (b) b.remove(); }
+          if (S.quiz[i]) setSeg(li.querySelector(".x-seg"), S.quiz[i]);
+        });
+        document.querySelectorAll("#douglas li").forEach((li, i) => setSeg(li.querySelector(".x-seg"), S.douglas[i]));
+        tally(); score(); updateTimes(); DAYS.forEach((d) => paint(d.n));
+        if (SAVED.tab && document.getElementById(SAVED.tab)) show(SAVED.tab);
+      })();
+      $("#wipe").addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!confirm("Clear all saved notes and answers on this device? Download a copy first if you want one.")) return;
+        wiping = true; clearTimeout(saveT);
+        try { localStorage.removeItem(KEY); } catch (err) {}
+        location.reload();
       });
     </script>
   </body>
