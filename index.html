@@ -196,6 +196,7 @@
       html[data-look="pulse"][data-theme="light"] ::placeholder { color: rgb(27 32 51 / 0.45); }
       html[data-look="pulse"][data-theme="light"] .x-input, html[data-look="pulse"][data-theme="light"] .x-area { background: rgb(255 255 255 / 0.85); }
       html[data-look="pulse"][data-theme="light"] .x-break { color: #5c6478; }
+      html[data-look="pulse"][data-theme="light"] .btn.x-danger { color: var(--fill-system-red); border-color: color-mix(in srgb, var(--fill-system-red) 40%, transparent); }
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="dusk"] { --sw: radial-gradient(120% 90% at 50% 110%, #f7cfb4, #ecd3e2 35%, #e0e5f4 70%) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="dawn"] { --sw: radial-gradient(120% 90% at 50% 110%, #ffdcc0, #fbd3d6 35%, #e4e0f5 70%) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="ocean"] { --sw: radial-gradient(120% 90% at 50% 110%, #9fe0e0, #c4e2f0 40%, #e4eef8 75%) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
@@ -514,9 +515,12 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
 
       // ---- Day tabs ----
       function blankHTML(text, id, k) {
-        return text.split(/(\[[^\]]+\])/).map((part, j) => part.startsWith("[")
-          ? `<input class="x-input x-blank" data-ans="${esc(part.slice(1, -1))}" aria-label="Blank" autocomplete="off"><span class="x-ans"></span>`
-          : esc(part)).join("");
+        const parts = text.split(/(\[[^\]]+\])/);
+        return parts.map((part, j) => {
+          if (!part.startsWith("[")) return esc(j > 0 && parts[j - 1].startsWith("[") ? part.replace(/^[.,;:?!]+/, "") : part);
+          const punct = ((parts[j + 1] || "").match(/^[.,;:?!]+/) || [""])[0];
+          return `<input class="x-input x-blank" data-ans="${esc(part.slice(1, -1))}" aria-label="Blank" autocomplete="off">${esc(punct)}<span class="x-ans"></span>`;
+        }).join("");
       }
       const reveal = (t, x) => `<details class="x-more"><summary>${esc(t)}</summary><p>${esc(x)}</p></details>`;
       const note = (s, k) => `<label class="x-wid"><span class="x-num">${esc(k)}</span><textarea class="x-area" data-note="${s.id}:${esc(k)}" aria-label="${esc(k)}">${esc(S.notes[s.id + ":" + k] || "")}</textarea></label>`;
