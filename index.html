@@ -245,9 +245,9 @@
       /* ---- Day colors and visuals ---- */
       :root { --x-gold: #d6a531; --x-gold-ink: #7a5a0c; --x-red: #c62f27; --x-red-ink: #b0261f; }
       :root[data-theme="dark"] { --x-gold-ink: #f0c869; --x-red-ink: #ff9a90; }
-      #day1, #briefing { --x-day: #c62f27; --x-day-ink: #b0261f; --x-on: #fff; }
+      #day1, #briefing, #case, #cheat { --x-day: #c62f27; --x-day-ink: #b0261f; --x-on: #fff; }
       #day2 { --x-day: #0e5a6e; --x-day-ink: #0e5a6e; --x-on: #fff; }
-      :root[data-theme="dark"] #day1, :root[data-theme="dark"] #briefing { --x-day-ink: #ff9a90; }
+      :root[data-theme="dark"] #day1, :root[data-theme="dark"] #briefing, :root[data-theme="dark"] #case, :root[data-theme="dark"] #cheat { --x-day-ink: #ff9a90; }
       :root[data-theme="dark"] #day2 { --x-day: #137489; --x-day-ink: #7fd6e6; }
       .x-dayband { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 20px 24px; border-radius: var(--r-l); background: linear-gradient(120deg, var(--x-day), color-mix(in srgb, var(--x-day) 78%, #000)); color: var(--x-on); font: var(--type-heading); box-shadow: var(--hark-shadow); text-shadow: none; }
       .x-dayband b { font: var(--type-title); font-weight: var(--weight-bold); letter-spacing: 0.04em; }
@@ -322,6 +322,70 @@
       .x-mini li:not(.is-on) .x-n { background: var(--fill-segment); color: var(--text-secondary); }
       .x-mini .x-n { min-width: 20px; height: 20px; padding: 0 6px; }
       .x-mini + .x-foot { margin-top: 6px; }
+      /* ---- NAF chips and NAF card ---- */
+      .x-shead .x-nafchip { padding: 2px 10px; border-radius: var(--r-pill); background: var(--x-gold); color: #1b1726; font: var(--type-tag); font-weight: var(--weight-bold); letter-spacing: 0.04em; white-space: nowrap; }
+      .x-nafgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 8px; margin: 0; }
+      .x-nafgrid > div { padding: 10px 12px; border-radius: var(--r-s); background: color-mix(in srgb, var(--x-gold) 12%, transparent); border: 1px solid color-mix(in srgb, var(--x-gold) 40%, transparent); }
+      .x-nafgrid dt { font: var(--type-tag); font-weight: var(--weight-bold); color: var(--x-gold-ink); text-transform: uppercase; letter-spacing: 0.06em; }
+      .x-nafgrid dd { margin: 4px 0 0; font: var(--type-small); }
+      /* ---- Case walkthrough ---- */
+      .x-casetop { display: grid; gap: 10px; }
+      .x-field { display: grid; gap: 6px; }
+      #case .x-input { min-height: var(--tap); }
+      #case .btn, #cheat .btn { min-height: var(--tap); }
+      .x-stepper { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+      .x-step { position: relative; padding-left: 50px; }
+      .x-step::before { content: ""; position: absolute; left: 17px; top: 52px; bottom: -34px; width: 2px; background: var(--stroke-primary); }
+      .x-step:last-child::before { display: none; }
+      .x-step.is-done::before { background: color-mix(in srgb, var(--fill-system-green) 60%, transparent); }
+      .x-step.is-later > .x-step__d { opacity: 0.72; }
+      .x-step__d summary { display: flex; align-items: center; gap: 10px; min-height: var(--tap); cursor: pointer; list-style: none; }
+      .x-step__d summary::-webkit-details-marker { display: none; }
+      .x-step__d summary::after { content: "\25BE"; margin-left: auto; color: var(--text-secondary); transition: transform var(--dur-quick) var(--ease-out); }
+      .x-step__d:not([open]) summary::after { transform: rotate(-90deg); }
+      .x-step__t { display: grid; min-width: 0; }
+      .x-step__t b { font: var(--type-heading); }
+      .x-step__t small { font: var(--type-caption); color: var(--text-secondary); }
+      html[data-look="pulse"] .x-step__t b { font-family: var(--serif); }
+      .x-step__dot { position: absolute; left: 0; top: 16px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--fill-primary-on); border: 2px solid var(--x-day); color: var(--text-primary); font: var(--type-label); font-weight: var(--weight-bold); }
+      .x-step.is-done .x-step__dot { border-color: var(--fill-system-green); color: color-mix(in srgb, var(--fill-system-green) 70%, var(--text-primary)); }
+      .x-step__body { display: grid; gap: 12px; }
+      .x-step__body > * { min-width: 0; }
+      .x-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0 16px; }
+      .x-chk { display: flex; align-items: center; gap: 10px; min-height: var(--tap); cursor: pointer; font: var(--type-small); }
+      .x-chk input, .x-opts input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--x-day); }
+      .x-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 8px; }
+      .x-opts label { display: flex; align-items: center; gap: 10px; min-height: var(--tap); padding: 8px 14px; border-radius: var(--r-s); border: 1px solid var(--stroke-primary); background: var(--fill-primary-on); font: var(--type-small); cursor: pointer; }
+      .x-opts label:has(input:checked) { border-color: var(--x-day); box-shadow: inset 0 0 0 1px var(--x-day); }
+      .x-ok, .x-goldtag { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--r-pill); font: var(--type-label); font-weight: var(--weight-medium); }
+      .x-ok { color: color-mix(in srgb, var(--fill-system-green) 70%, var(--text-primary)); background: color-mix(in srgb, var(--fill-system-green) 14%, transparent); border: 1px solid color-mix(in srgb, var(--fill-system-green) 50%, transparent); }
+      .x-goldtag { background: var(--x-gold); color: #1b1726; }
+      .x-hint { color: var(--text-secondary); font: var(--type-small); }
+      .x-elems--col { flex-direction: column; align-items: stretch; }
+      .x-elems--col ol { flex-direction: column; }
+      .x-elems--col li { display: grid; justify-items: stretch; gap: 4px; padding: 6px 12px 10px; text-align: left; font: var(--type-small); }
+      .x-elems--col .x-elems__grp { grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; column-gap: 10px; }
+      .x-elems--col .x-elems__cap { padding: 0 0 0 14px; max-width: 12ch; display: flex; align-items: center; text-align: left; }
+      .x-elems--col .x-elems__cap::before { top: 6px; bottom: 6px; left: 0; right: auto; width: 8px; height: auto; border: 2px solid var(--x-day); border-left: 0; border-radius: 0 6px 6px 0; }
+      .x-elems--col .x-chk b { font: var(--type-label); font-weight: var(--weight-medium); }
+      .x-elems--col .btn { justify-self: start; }
+      .x-alts { margin: 0; padding-left: 18px; font: var(--type-small); }
+      .x-alts li + li { margin-top: 6px; }
+      .x-dates { display: flex; flex-wrap: wrap; gap: 6px; }
+      .x-flow.x-flow--stack { flex-direction: column; }
+      .x-flow--stack .x-flow__arrow { width: auto; height: 20px; transform: rotate(90deg); }
+      .x-step__dot { top: 22px; }
+      .x-step::before { top: 60px; }
+      #c-appeal { display: grid; gap: 12px; }
+      .x-flow .x-flow__step em { font-style: normal; font-weight: var(--weight-medium); color: var(--x-day-ink); }
+      @media (max-width: 640px) {
+        .x-step { padding-left: 42px; }
+        .x-step::before { left: 15px; top: 56px; }
+        .x-step__dot { width: 32px; height: 32px; top: 22px; }
+        .x-elems--col .x-elems__grp { grid-template-columns: minmax(0, 1fr); }
+        .x-elems--col .x-elems__cap { max-width: none; padding: 0 0 0 14px; }
+        .x-elems--col .x-elems__cap::before { display: none; }
+      }
     </style>
       <!-- Fathom - beautiful, simple website analytics -->
     <script src="https://cdn.usefathom.com/script.js" data-site="BWMHNQAD" defer></script>
@@ -329,7 +393,7 @@
   </head>
   <body>
     <div class="page" id="top">
-      <div class="x-top" id="xtop"><span class="x-title">UnCivil Servant <span>Class Companion</span></span></div>
+      <div class="x-top" id="xtop"><span class="x-title">UnCivil Servant <span>NAF supervisor edition</span></span></div>
       <header class="nav glass x-bar">
         <nav class="x-tabs" role="tablist" aria-label="Tabs" id="tabs"></nav>
         <span class="x-right">
@@ -353,26 +417,37 @@
       <p class="x-swipe" id="swipehint" hidden>Swipe the menu sideways to see more tabs →</p>
       <p class="x-banner" id="savebanner">Your notes and answers save automatically on this device and browser. Download a copy to keep a backup.</p>
       <main class="main">
-        <section class="section" id="briefing" data-tab="Briefing">
+        <section class="section" id="case" data-tab="Case">
           <section class="hero">
             <div class="hero__copy">
-              <p class="hero__eyebrow">FELTG UnCivil Servant · virtual · Deborah J. Hopkins</p>
-              <h1>First question: can't or won't?</h1>
-              <p class="hero__sub">Class companion for a Marine Corps NAF supervisor at MCCS Okinawa.</p>
-              <p class="hero__meta">Wed Nov 4 to Thu Nov 5, 2026 · 12 sessions</p>
+              <p class="hero__eyebrow">NAF supervisor edition · MCCS</p>
+              <h1>NAF case walkthrough</h1>
+              <p class="hero__sub">Have a real problem employee? Walk it step by step. Everything stays on this device.</p>
             </div>
           </section>
-          <div class="cards" id="takeaways"></div>
-          <div class="x-flag">
-            <b>NAF is different.</b> Substantial-evidence standard for misconduct and performance. A Letter of Requirement comes before a PIP. Appeals go to the Head of the Local NAFI, then HQMC (MR); no MSPB.
+          <div class="x-casetop">
+            <label class="x-field"><span class="x-num">Case nickname (no names)</span><input class="x-input" type="text" data-c="nick" autocomplete="off" placeholder="e.g. Warehouse lates"></label>
+            <p class="x-tools"><button class="btn x-danger" type="button" id="case-new">Start a new case</button></p>
           </div>
+          <ol class="x-stepper" id="casesteps"></ol>
         </section>
 
         <section class="section" id="day1" data-tab="Day 1" hidden></section>
         <section class="section" id="day2" data-tab="Day 2" hidden></section>
 
         <section class="section" id="cheat" data-tab="Cheat Sheet" hidden>
+          <div class="head"><h2>Class takeaways</h2><p class="head__sub">First question: can't or won't? FELTG UnCivil Servant · virtual · Deborah J. Hopkins · Wed Nov 4 to Thu Nov 5, 2026 · 12 sessions · for a Marine Corps NAF supervisor at MCCS Okinawa.</p></div>
+          <div class="cards" id="takeaways"></div>
           <div class="head"><h2>Misconduct is won't; performance is can't.</h2></div>
+          <div class="x-wid x-viz x-viz--naf">
+            <h4>★ NAF is different</h4>
+            <dl class="x-nafgrid">
+              <div><dt>Proof</dt><dd>Substantial evidence for both misconduct and performance.</dd></div>
+              <div><dt>Before a PIP</dt><dd>Letter of Requirement, 30-60 day observation.</dd></div>
+              <div><dt>Appeals</dt><dd>Head of Local NAFI (15 days) → HQMC (MR) (15 days). Final, no MSPB.</dd></div>
+              <div><dt>Covers</dt><dd>Suspensions over 30 days, demotions, separations (nonprobationary).</dd></div>
+            </dl>
+          </div>
           <div class="table-wrap">
             <table>
               <thead>
@@ -381,13 +456,12 @@
               <tbody>
                 <tr><th scope="row">Law</th><td>Ch. 75</td><td>Ch. 43</td></tr>
                 <tr><th scope="row">Proof, Title 5</th><td>Preponderance (~51%)</td><td>Substantial (~40%)</td></tr>
-                <tr class="is-highlight"><th scope="row">Proof, NAF</th><td>Substantial</td><td>Substantial</td></tr>
                 <tr><th scope="row">Tools</th><td>Reprimand, suspension, demotion, removal</td><td>Reassignment, demotion, removal</td></tr>
                 <tr><th scope="row">Mitigation on appeal</th><td>Yes</td><td>No</td></tr>
               </tbody>
             </table>
           </div>
-          <div class="head"><h2>Douglas factors scorer</h2><p class="head__sub">Mark each factor; the tally updates as you go.</p></div>
+          <div class="head" id="douglas-head" style="scroll-margin-top: 90px"><h2>Douglas factors scorer</h2><p class="head__sub">Mark each factor; the tally updates as you go.</p></div>
           <section class="stats" id="tally"></section>
           <ol class="x-list" id="douglas"></ol>
         </section>
@@ -588,12 +662,12 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         "Table of penalties", "Notoriety", "Clarity of notice", "Rehabilitation potential", "Mitigating circumstances", "Alternative sanctions"];
 
       // ---- State (memory only) ----
-      const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "briefing", checked: {} };
+      const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "case", checked: {}, case: {} };
       // ---- Local save (this device only) ----
       const KEY = "uscc-class-companion-v1";
       let SAVED = {};
       try { SAVED = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (err) { SAVED = {}; }
-      ["notes", "pick", "here", "checked"].forEach((k) => { if (SAVED[k] && typeof SAVED[k] === "object") S[k] = SAVED[k]; });
+      ["notes", "pick", "here", "checked", "case"].forEach((k) => { if (SAVED[k] && typeof SAVED[k] === "object") S[k] = SAVED[k]; });
       if (Array.isArray(SAVED.quiz)) SAVED.quiz.forEach((v, i) => { if (i < S.quiz.length) S.quiz[i] = v; });
       if (Array.isArray(SAVED.douglas)) SAVED.douglas.forEach((v, i) => { if (i < S.douglas.length) S.douglas[i] = v; });
       if (typeof SAVED.jst === "boolean") S.jst = SAVED.jst;
@@ -684,8 +758,9 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         const w0 = (s.widgets || []).filter((x) => x.before).map((x) => widgetHTML(x, s)).join("");
         const b = (s.blanks || []).length ? `<div class="x-blanks">${s.blanks.map((t, k) => `<p>${blankHTML(t, s.id, k)}</p>`).join("")}<p><button class="btn" type="button" data-act="check">Check</button></p></div>` : "";
         const p = s.picker ? `<p class="x-tools"><span class="x-num">${esc(s.picker.label)}</span>${seg(s.picker.label, s.picker.options, S.pick[s.id])}</p>` : "";
+        const naf = [].concat(s.callout || []).some((o) => o.type === "naf") || (s.widgets || []).some((x) => x.tone === "naf");
         return `<li class="x-card" id="${s.id}" data-id="${s.id}">
-          <div class="x-card__top x-shead"><h3>${esc(s.title)}</h3><span class="x-chips"><span class="x-time" data-day="${s.day}" data-start="${s.start}" data-end="${s.end}"></span><span class="pill">${esc(s.pages)}</span></span></div>
+          <div class="x-card__top x-shead"><h3>${esc(s.title)}</h3><span class="x-chips"><span class="x-time" data-day="${s.day}" data-start="${s.start}" data-end="${s.end}"></span><span class="pill">${esc(s.pages)}</span>${naf ? `<span class="x-nafchip" title="Has a NAF note">NAF</span>` : ""}</span></div>
           ${w0}<ul>${s.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>${b}${w}${c}${p}
           <textarea class="x-area" data-note="${s.id}" placeholder="Notes" aria-label="Notes for ${esc(s.title)}">${esc(S.notes[s.id] || "")}</textarea>
           <p><button class="btn" type="button" data-act="here">I'm here</button></p>
@@ -796,23 +871,214 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           sec("Questions to ask", "#n-questions"), sec("Instructor said", "#n-instructor"), sec("Apply to my team", "#n-team"),
           `== Quiz ==\n${QUIZ.map((q, i) => `${i + 1}. ${q[0]} ${S.quiz[i] || "-"}`).join("\n")}`].filter(Boolean).join("\n\n");
       }
-      $("#copy").addEventListener("click", async (e) => {
-        e.currentTarget.blur();
-        const t = allText();
-        try { await navigator.clipboard.writeText(t); $("#hint").textContent = "Copied."; }
-        catch (err) { const a = $("#allnotes"); a.value = t; a.focus(); a.select(); $("#hint").textContent = "Selected. Press Ctrl+C to copy."; }
-      });
-      $("#dl").addEventListener("click", () => {
-        const url = URL.createObjectURL(new Blob([allText()], { type: "text/plain" }));
-        const a = document.createElement("a"); a.href = url; a.download = "feltg-class-notes.txt"; document.body.appendChild(a); a.click(); a.remove();
+      async function copyText(t, area, hint) {
+        try { await navigator.clipboard.writeText(t); hint.textContent = "Copied."; }
+        catch (err) { area.value = t; area.focus(); area.select(); hint.textContent = "Selected. Press Ctrl+C to copy."; }
+      }
+      function downloadText(t, name) {
+        const url = URL.createObjectURL(new Blob([t], { type: "text/plain" }));
+        const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+      $("#copy").addEventListener("click", (e) => { e.currentTarget.blur(); copyText(allText(), $("#allnotes"), $("#hint")); });
+      $("#dl").addEventListener("click", () => downloadText(allText(), "feltg-class-notes.txt"));
+
+      // ---- Case walkthrough (saved in S.case) ----
+      const TRY = [["t_coach", "Coaching"], ["t_couns", "Counseling"], ["t_ment", "Mentoring"], ["t_train", "Training"], ["t_reas", "Reassignment"]];
+      const STATUS = { nonprob: "Nonprobationary NAF", prob: "Probationary or temporary NAF" };
+      const KIND = { mis: "Won't: breaking a rule (misconduct)", perf: "Can't: not meeting a critical element (performance)" };
+      const ELS = [["Rule", "Law, regulation, agency or local policy, your own directive, or 'should have known'; needs a nexus to the job."],
+        ["Notice", "Email is terrific."],
+        ["Misconduct proof", "Observation, witnesses, video or computer logs, admission. He-said/she-said: weigh all the Hillen factors."],
+        ["Penalty", "Weigh the Douglas factors."],
+        ["Due process", "Specific charges, access to all evidence, at least 7 days to respond orally and in writing, right to a representative, impartial decision based only on the proposal and the response, any CBA requirements."]];
+      const PEN = { rep: "Reprimand", s30: "Suspension 30 days or less", s31: "Suspension over 30 days", demo: "Demotion", rem: "Removal (separation)" };
+      const PLAN = [["p4a", "It's a critical element (non-critical elements are useless)"], ["p4b", "Standard is MUVA: Measurable, Understandable, Verifiable, Achievable"],
+        ["p4c", "Standard in place at least 60 days (warm-up)"], ["p4d", "Vague? Clarify the element before acting (Khan v. DOJ, 2026)"]];
+      const LOR = [["l1", "The deficiencies"], ["l2", "The required level of performance"], ["l3", "Supervisory support"], ["l4", "An observation period, typically 30-60 days"]];
+      const PIPL = [["pl1", "Failed critical elements"], ["pl2", "Minimum retention level"], ["pl3", "Length"], ["pl4", "Consequences"], ["pl5", "Weekly meetings"], ["pl6", "First-week assignment"], ["pl7", "Contact person"]];
+      const MPACE = [[0, "Misconduct"], [7, "Proposal letter (send them home)"], [17, "Written reply"], [24, "Oral reply"], [38, "Decision"]];
+      const Q_MIS = "Oct 5, 2026: Douglas replaced by 'totality of the circumstances' for Title 5/42 employees. Does it reach NAF?";
+      const Q_LOR = "Can the Letter of Requirement observation period count as pre-PIP evidence?";
+      const Q_DOW = "Pentagon memo (Sept 30, 2025) points DoW components to Chapter 75 for poor performers. Does it affect NAF?";
+      const Q_PROB = "Probationary or temporary employee: what options apply?";
+
+      const pd = (s) => { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || "")) return null; const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+      const addD = (dt, n) => new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + n);
+      const fd = (dt) => dt.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+      const cv = (k) => S.case[k];
+      const cChk = (k, label) => `<label class="x-chk"><input type="checkbox" data-c="${k}"${cv(k) ? " checked" : ""}><span>${label}</span></label>`;
+      const cOpt = (k, v, label) => `<label><input type="radio" name="c-${k}" data-c="${k}" value="${v}"${cv(k) === v ? " checked" : ""}><span>${esc(label)}</span></label>`;
+      const cDate = (k, label) => `<label class="x-field"><span class="x-num">${label}</span><input class="x-input" type="date" data-c="${k}" value="${esc(cv(k) || "")}"></label>`;
+      const cArea = (k, label, ph) => `<label class="x-field"><span class="x-num">${label}</span><textarea class="x-area" data-c="${k}" placeholder="${esc(ph || "")}">${esc(cv(k) || "")}</textarea></label>`;
+      const flag = (type, text) => `<div class="x-flag ${type === "new" ? "x-flag--new" : "x-flag--naf"}"><b class="x-tag">${type === "new" ? "NEW" : "★ NAF"}</b>${text}</div>`;
+      const step = (id, title, sub, body, branch) => `<li class="x-step" data-step="${id}"${branch ? ` data-branch="${branch}"` : ""}><span class="x-step__dot" aria-hidden="true"></span>
+        <details class="x-step__d x-card"><summary><span class="x-step__t"><b>${title}</b><small>${sub}</small></span></summary><div class="x-step__body">${body}</div></details></li>`;
+      const elLi = (k) => `<li><label class="x-chk"><input type="checkbox" data-c="e${k + 1}"${cv("e" + (k + 1)) ? " checked" : ""}><span class="x-n">${k + 1}</span><b>${esc(ELS[k][0])}</b></label>
+        <span class="x-hint">${esc(ELS[k][1])}</span>${k === 3 ? `<button class="btn" type="button" data-go="douglas">Open the Douglas scorer</button>` : ""}
+        <input class="x-input" type="text" data-c="en${k + 1}" value="${esc(cv("en" + (k + 1)) || "")}" placeholder="Short note" aria-label="${esc(ELS[k][0])} note" autocomplete="off"></li>`;
+
+      function renderCase() {
+        $('[data-c="nick"]').value = cv("nick") || "";
+        $("#casesteps").innerHTML = [
+          step("s1", "Try first", "Before formal discipline", `<div class="x-checks">${TRY.map(([k, l]) => cChk(k, l)).join("")}</div>
+            ${cArea("n1", "What you tried and when")}
+            <p class="x-hint">Tip: Formal discipline is only reprimand, suspension, demotion and removal. Counseling, caution and warning letters don't count as priors.</p>`),
+          step("s2", "Employee status", "Check this before anything else", `<div class="x-opts" role="radiogroup" aria-label="Employee status">${Object.entries(STATUS).map(([v, l]) => cOpt("status", v, l)).join("")}</div>
+            <div class="x-flag" id="c-prob" hidden>Probationary and temporary staff have far fewer protections, and the NAF appeal path covers nonprobationary employees. Confirm options with MCCS HR.</div>`),
+          step("s3", "Can't or won't?", "This choice branches the remaining steps", `<div class="x-opts" role="radiogroup" aria-label="Can't or won't">${Object.entries(KIND).map(([v, l]) => cOpt("kind", v, l)).join("")}</div>
+            ${flag("naf", "NAF standard of proof is substantial evidence for both: such relevant evidence as a reasonable mind might accept as adequate to support a conclusion (MCO P12000.11A, 5007.3).")}`),
+          step("m4", "Five elements", "Check each one you can prove", `<div class="x-wid x-viz"><div class="x-elems x-elems--col">
+              <div class="x-elems__grp"><ol>${[0, 1, 2].map(elLi).join("")}</ol><p class="x-elems__cap">Enough for a reprimand</p></div>
+              <div class="x-elems__rest"><ol start="4">${[3, 4].map(elLi).join("")}</ol></div></div></div>
+            <p class="x-ok" id="c-e3" hidden>✓ Elements 1-3 met: enough for a reprimand.</p>
+            ${flag("new", "Oct 5, 2026: Douglas replaced by 'totality of the circumstances' for Title 5/42 employees. Whether it reaches NAF is an open question for HR.")}`, "mis"),
+          step("m5", "Penalty and alternatives", "What you're considering", `<div class="x-opts" role="radiogroup" aria-label="Penalty">${Object.entries(PEN).map(([v, l]) => cOpt("pen", v, l)).join("")}</div>
+            <p id="c-appealtag" hidden></p>
+            <div class="x-wid"><h4>Alternatives</h4><ul class="x-alts">
+              <li><b>Reprimand in lieu of suspension:</b> the employee waives grievance and appeal rights (sample p. 99).</li>
+              <li><b>Last Chance Agreement:</b> removal held 2 years; any breach means removal on the original charge.</li>
+              <li><b>Last Rites talk:</b> truthful, 2-3 days to decide, encourage counsel, signed agreement.</li></ul></div>
+            ${cArea("n5", "Notes on the penalty")}`, "mis"),
+          step("m6", "Dates", "Pacing and appeal deadlines", `${cDate("dmis", "Date of misconduct")}
+            <div class="x-wid x-viz"><h4>Class sample pacing (handout example), not a rule.</h4><div id="c-mtl"></div></div>
+            <div id="c-appeal" hidden>${cDate("deff", "Effective date of the action")}<div id="c-apflow"></div></div>
+            ${cArea("n6", "Date notes")}`, "mis"),
+          step("p4", "Read the plan", "Is the element usable?", `<div class="x-checks" style="grid-template-columns:minmax(0,1fr)">${PLAN.map(([k, l]) => cChk(k, esc(l))).join("")}</div>${cArea("n4p", "Plan notes")}`, "perf"),
+          step("p5", "Letter of Requirement", "NAF-specific, before the PIP", `<div class="x-wid x-viz x-viz--naf"><h4>★ NAF: Letter of Requirement</h4>
+              <p>Rated below 'Meets Expectations' → Letter of Requirement: the deficiencies, the required level of performance, supervisory support, and an observation period, typically 30-60 days. If performance remains unacceptable, proceed to a formal PIP.</p></div>
+            ${cDate("dlor", "LOR issued")}<div class="x-wid x-viz x-viz--naf" id="c-lor"></div>
+            <div class="x-checks" style="grid-template-columns:minmax(0,1fr)">${LOR.map(([k, l]) => cChk(k, l)).join("")}</div>
+            <p class="x-hint">Open question: Can the observation period count as pre-PIP evidence? Ask HR.</p>${cArea("n5p", "LOR notes")}`, "perf"),
+          step("p6", "PIP", "30 days always satisfies the MSPB", `${cDate("dpip", "PIP start")}<div class="x-wid x-viz" id="c-pip"></div>
+            <div class="x-wid"><h4>PIP letter checklist (p. 103)</h4><div class="x-checks">${PIPL.map(([k, l]) => cChk(k, l)).join("")}</div></div>
+            <ul class="x-alts">
+              <li>Document unacceptable performance before the PIP: journal, email, spreadsheet, mid-year review (Santos v. NASA).</li>
+              <li>Meet weekly, critique orally, then email the employee and your advisor the same day.</li>
+              <li>Failing one critical element is enough.</li>
+              <li>Pass = warning letter (1 yr). Fail = reassign, last rites or propose removal.</li>
+              <li>If performance drops again within a year of the PIP start, you can propose removal without a new PIP (Thomas v. DoD).</li>
+              <li>Disability request mid-PIP: pause, accommodate, don't lower the standard.</li></ul>
+            ${flag("new", "Pentagon memo (Sept 30, 2025) points DoW components to Chapter 75 for poor performers. Does it affect NAF? Ask HR.")}
+            ${cArea("n6p", "PIP notes")}`, "perf"),
+          step("sum", "Case summary", "Copy or download for your advisor", `<textarea class="x-area" id="c-summary" readonly aria-label="Case summary"></textarea>
+            <p class="x-tools"><button class="btn" type="button" id="case-copy">Copy</button><button class="btn" type="button" id="case-dl">Download .txt</button><span class="fineprint" id="case-hint" aria-live="polite"></span></p>
+            <p class="fineprint">Not legal advice. Confirm with MCCS HR or legal before acting.</p>`),
+        ].join("");
+        prevDone = null; updateCase();
+      }
+
+      const appealable = () => cv("status") === "nonprob" && ["s31", "demo", "rem"].includes(cv("pen"));
+      const tl = (rows) => `<ol class="x-tl" style="--n:${rows.length}">${rows.map(([m, t, d]) => `<li><b>${esc(m)}</b><span>${esc(t)}</span><small>${esc(d)}</small></li>`).join("")}</ol>`;
+      function appealSteps() {
+        const eff = pd(cv("deff"));
+        return [["Step 1", "Appeal to Head of Local NAFI", eff ? `Due by ${fd(addD(eff, 15))} (effective date +15 calendar days)` : "Within 15 calendar days of the effective date"],
+          ["Hearing", "If requested", "No later than 60 calendar days from the request"],
+          ["Step 1", "Decision", "Within 60 calendar days of the appeal or of the hearing"],
+          ["Step 2", "Appeal to HQMC (MR)", "Within 15 calendar days of the Step 1 decision"],
+          ["Final", "HQMC decision", "Within 60 calendar days of receipt. Final."]];
+      }
+      function caseDone() {
+        const c = S.case, all = (ks) => ks.every((k) => c[k]);
+        return { s1: TRY.some(([k]) => c[k]) || !!(c.n1 || "").trim(), s2: !!c.status, s3: !!c.kind,
+          m4: all(["e1", "e2", "e3", "e4", "e5"]), m5: !!c.pen, m6: !!pd(c.dmis) && (!appealable() || !!pd(c.deff)),
+          p4: all(PLAN.map((p) => p[0])), p5: !!pd(c.dlor), p6: !!pd(c.dpip), sum: false };
+      }
+      let prevDone = null;
+      function updateCase(fromInput) {
+        const c = S.case, root = $("#casesteps");
+        $("#c-prob").hidden = c.status !== "prob";
+        root.querySelectorAll("[data-branch]").forEach((li) => (li.hidden = c.kind !== li.dataset.branch));
+        $("#c-e3").hidden = !(c.e1 && c.e2 && c.e3);
+        const tag = $("#c-appealtag");
+        tag.hidden = !c.pen;
+        tag.className = appealable() ? "x-goldtag" : "x-hint";
+        tag.textContent = appealable() ? "★ Appealable on the NAF path (no MSPB)" : "Not on the NAF appeal path";
+        const dm = pd(c.dmis);
+        $("#c-mtl").innerHTML = tl(MPACE.map(([n, t]) => [n ? "+" + n : "Day 1", t, dm ? fd(addD(dm, n)) : "Set the date above"]));
+        $("#c-appeal").hidden = !appealable();
+        $("#c-apflow").innerHTML = `<div class="x-wid x-viz x-viz--naf"><h4>★ NAF appeal path</h4><ol class="x-flow x-flow--stack">${appealSteps().map(([n, t, x], k) =>
+          `${k ? `<li class="x-flow__arrow" aria-hidden="true">›</li>` : ""}<li class="x-flow__step"><span class="x-n">${esc(n)}</span><b>${esc(t)}</b><span>${k === 0 && pd(c.deff) ? `<em>${esc(x)}</em>` : esc(x)}</span></li>`).join("")}</ol>
+          <p class="x-foot">Covers suspensions over 30 days, demotions and separations of nonprobationary employees. No MSPB.</p></div>`;
+        const dl = pd(c.dlor);
+        $("#c-lor").innerHTML = `<h4>Observation period</h4>${tl([["Day 1", "LOR issued", dl ? fd(dl) : "Set the date above"], ["+30", "Observation ends (30 days)", dl ? fd(addD(dl, 30)) : ""], ["+60", "Observation ends (60 days)", dl ? fd(addD(dl, 60)) : ""]])}`;
+        const dp = pd(c.dpip);
+        $("#c-pip").innerHTML = `<h4>PIP calendar: 30 days always satisfies the MSPB</h4>${tl([["Start", "PIP letter", dp ? fd(dp) : "Set the date above"]].concat([1, 2, 3, 4].map((w) => ["+" + w * 7, "Weekly meeting " + w, dp ? fd(addD(dp, w * 7)) : ""]), [["+30", "PIP ends", dp ? fd(addD(dp, 30)) : ""]]))}`;
+        // Done marks, numbering, reveal
+        const done = caseDone(), steps = [...root.querySelectorAll(".x-step")].filter((li) => !li.hidden);
+        const firstOpen = steps.findIndex((li) => !done[li.dataset.step]);
+        steps.forEach((li, i) => {
+          const d = done[li.dataset.step];
+          li.classList.toggle("is-done", d);
+          li.classList.toggle("is-later", firstOpen >= 0 && i > firstOpen);
+          li.querySelector(".x-step__dot").textContent = d ? "✓" : String(i + 1);
+          li.querySelector("summary small").dataset.n = i + 1;
+        });
+        if (!prevDone) { if (firstOpen >= 0) steps[firstOpen].querySelector("details").open = true; }
+        else if (fromInput) steps.forEach((li, i) => { if (done[li.dataset.step] && !prevDone[li.dataset.step] && steps[i + 1]) steps[i + 1].querySelector("details").open = true; });
+        prevDone = done;
+        $("#c-summary").value = caseText();
+      }
+      function caseText() {
+        const c = S.case, L = [], box = (k) => (c[k] ? "[x]" : "[ ]"), n = (k) => ((c[k] || "").trim() ? "   Notes: " + c[k].trim() : "");
+        const add = (...a) => a.filter(Boolean).forEach((x) => L.push(x));
+        add("NAF CASE SUMMARY: " + ((c.nick || "").trim() || "(no nickname)"), "Built " + fd(new Date()), "");
+        add("1. Try first: " + (TRY.filter(([k]) => c[k]).map((t) => t[1]).join(", ") || "nothing checked"), n("n1"));
+        add("2. Employee status: " + (STATUS[c.status] || "not set"));
+        add("3. Can't or won't: " + (KIND[c.kind] || "not set"), "");
+        if (c.kind === "mis") {
+          add("4. Five elements:");
+          ELS.forEach(([t], k) => add(`   ${box("e" + (k + 1))} ${k + 1}. ${t}${(c["en" + (k + 1)] || "").trim() ? ": " + c["en" + (k + 1)].trim() : ""}`));
+          if (c.e1 && c.e2 && c.e3) add("   Elements 1-3 met: enough for a reprimand.");
+          add("5. Penalty: " + (PEN[c.pen] || "not set") + (c.pen ? (appealable() ? " (appealable on the NAF path, no MSPB)" : " (not on the NAF appeal path)") : ""), n("n5"));
+          const dm = pd(c.dmis);
+          add("6. Dates (class sample pacing, handout example, not a rule):");
+          if (dm) MPACE.forEach(([d, t]) => add(`   ${d ? "+" + d : "Day 1"}  ${fd(addD(dm, d))}  ${t}`)); else add("   Date of misconduct not set");
+          if (appealable()) {
+            add("   NAF appeal path:" + (pd(c.deff) ? " effective date " + fd(pd(c.deff)) : " effective date not set"));
+            appealSteps().forEach(([s, t, x]) => add(`   - ${s}: ${t}. ${x}`));
+          }
+          add(n("n6"));
+        } else if (c.kind === "perf") {
+          add("4. Read the plan:"); PLAN.forEach(([k, l]) => add(`   ${box(k)} ${l}`)); add(n("n4p"));
+          const dl = pd(c.dlor);
+          add("5. Letter of Requirement: " + (dl ? `issued ${fd(dl)}; observation ends ${fd(addD(dl, 30))} (+30) to ${fd(addD(dl, 60))} (+60)` : "date not set"));
+          LOR.forEach(([k, l]) => add(`   ${box(k)} ${l}`)); add(n("n5p"));
+          const dp = pd(c.dpip);
+          add("6. PIP: " + (dp ? `starts ${fd(dp)}; ends ${fd(addD(dp, 30))} (+30)` : "start date not set"));
+          if (dp) [1, 2, 3, 4].forEach((w) => add(`   Weekly meeting ${w}: ${fd(addD(dp, w * 7))}`));
+          add("   PIP letter checklist (p. 103):"); PIPL.forEach(([k, l]) => add(`   ${box(k)} ${l}`)); add(n("n6p"));
+        }
+        const q = [].concat(c.status === "prob" ? [Q_PROB] : [], c.kind === "mis" ? [Q_MIS] : [], c.kind === "perf" ? [Q_LOR, Q_DOW] : []);
+        add("", "QUESTIONS FOR MCCS HR");
+        if (q.length) q.forEach((x) => add("- " + x)); else add("- (Choose can't or won't to see the open questions.)");
+        add("", "Not legal advice. Confirm with MCCS HR or legal before acting.");
+        return L.join("\n");
+      }
+      function caseInput(e) {
+        const t = e.target, k = t.dataset && t.dataset.c; if (!k) return;
+        if (t.type === "checkbox") S.case[k] = t.checked; else if (t.type === "radio") { if (t.checked) S.case[k] = t.value; } else S.case[k] = t.value;
+        updateCase(true);
+      }
+      $("#case").addEventListener("input", caseInput);
+      $("#case").addEventListener("change", caseInput);
+      $("#case").addEventListener("click", (e) => {
+        const b = e.target.closest("button"); if (!b) return;
+        if (b.dataset.go === "douglas") { show("cheat"); requestAnimationFrame(() => $("#douglas-head").scrollIntoView({ block: "start" })); }
+        else if (b.id === "case-copy") { b.blur(); copyText(caseText(), $("#c-summary"), $("#case-hint")); }
+        else if (b.id === "case-dl") downloadText(caseText(), "naf-case-" + (((S.case.nick || "").trim().replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")) || "summary").toLowerCase() + ".txt");
+        else if (b.id === "case-new") {
+          if (!confirm("Start a new case? This clears only the case fields on this device. Copy or download the summary first if you want it.")) return;
+          S.case = {}; renderCase(); saveNow();
+        }
       });
+      renderCase();
       // ---- Local save: restore and autosave ----
       const FREE = ["n-questions", "n-instructor", "n-team"];
       const blanks = () => [...document.querySelectorAll(".x-blank")];
       const guesses = () => [...document.querySelectorAll("#quizlist .x-input")];
       function snapshot() {
-        return { v: 1, saved: Date.now(), notes: S.notes, pick: S.pick, here: S.here, checked: S.checked, quiz: S.quiz, douglas: S.douglas, jst: S.jst, tab: S.tab,
+        return { v: 1, saved: Date.now(), notes: S.notes, pick: S.pick, here: S.here, checked: S.checked, case: S.case, quiz: S.quiz, douglas: S.douglas, jst: S.jst, tab: S.tab,
           free: Object.fromEntries(FREE.map((id) => [id, $("#" + id).value])),
           blanks: blanks().map((b) => b.value), guesses: guesses().map((g) => g.value),
           revealed: [...document.querySelectorAll("#quizlist li")].map((li) => !li.querySelector("[hidden]")) };
