@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap"
     />
+    <script>try { var L = localStorage.getItem("uscc-look"), K = localStorage.getItem("uscc-sky"); if (L === "pulse") document.documentElement.setAttribute("data-look", "pulse"); if (K) document.documentElement.setAttribute("data-sky", K); } catch (e) {}</script>
     <link rel="stylesheet" href="hark.css" />
     <link rel="stylesheet" href="hark-hero.css" />
     <style>
@@ -69,6 +70,81 @@
       .x-more summary::before { content: "\25B8\00a0"; color: var(--text-secondary); }
       .x-more[open] summary::before { content: "\25BE\00a0"; }
       @media (max-width: 599px) { .x-tabs button { min-height: var(--tap); } }
+
+      /* ---- Settings gear ---- */
+      .x-gear { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--hover-wash-primary-on); color: var(--text-primary-on); cursor: pointer; transition: transform 300ms var(--ease-out); }
+      .x-gear svg { width: 17px; height: 17px; }
+      .x-gear[aria-expanded="true"] { transform: rotate(60deg); }
+      @media (max-width: 599px) { .x-gear { width: var(--tap); height: var(--tap); } }
+      .x-settings { position: fixed; z-index: 40; top: calc(env(safe-area-inset-top, 0px) + 66px); right: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter))); width: min(340px, calc(100vw - 32px)); padding: 16px 18px; display: grid; gap: 14px; border-radius: var(--r-l); background: var(--mat-agent); -webkit-backdrop-filter: var(--hark-blur); backdrop-filter: var(--hark-blur); border: 1px solid var(--stroke-primary); box-shadow: var(--hark-shadow); transform-origin: top right; animation: x-pop 220ms var(--ease-out); }
+      @keyframes x-pop { from { opacity: 0; transform: scale(0.96) translateY(-4px); } }
+      .x-settings h3 { font: var(--type-label); }
+      .x-settings .x-row { display: grid; gap: 6px; }
+      .x-settings .x-row > span { font: var(--type-tag); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+      .x-settings .x-seg { flex-wrap: wrap; border-radius: var(--r-m); }
+      .x-skies { display: flex; flex-wrap: wrap; gap: 8px; }
+      .x-skies button { width: 38px; height: 38px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; background: var(--sw); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25); transition: transform 160ms var(--ease-out); }
+      .x-skies button:hover { transform: scale(1.06); }
+      .x-skies button[aria-pressed="true"] { border-color: var(--text-primary); }
+      .x-skyname { font: var(--type-caption); color: var(--text-secondary); }
+
+      /* ---- Pulse look ---- */
+      html[data-look="pulse"] {
+        color-scheme: dark;
+        --sky: radial-gradient(120% 80% at 50% 110%, #c98f6b 0%, #6d5a7a 28%, #2b3352 55%, #0e1420 85%);
+        --glow: #f3d9a4;
+        --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --text-primary: #eef1f6;
+        --text-secondary: rgb(238 241 246 / 0.7);
+        --text-tertiary: rgb(238 241 246 / 0.3);
+        --text-primary-on: #1b1726;
+        --text-secondary-on: rgb(238 241 246 / 0.72);
+        --fill-primary: var(--glow);
+        --fill-primary-on: rgb(8 12 24 / 0.32);
+        --fill-tertiary: rgb(255 255 255 / 0.065);
+        --fill-segment: rgb(255 255 255 / 0.08);
+        --fill-system-orange: #ffb98f;
+        --fill-system-green: #9ee6b4;
+        --fill-system-red: #ff9d94;
+        --stroke-primary: rgb(255 255 255 / 0.16);
+        --stroke-secondary: rgb(255 255 255 / 0.09);
+        --stroke-primary-on: rgb(255 255 255 / 0.12);
+        --hover-wash: rgb(255 255 255 / 0.06);
+        --hover-wash-primary-on: rgb(255 255 255 / 0.1);
+        --mat-inverse: rgb(14 20 32 / 0.42);
+        --mat-agent: rgb(20 24 40 / 0.78);
+        --hark-shadow: 0 10px 40px rgb(0 0 0 / 0.28);
+        --hero-surface: transparent;
+      }
+      html[data-look="pulse"][data-sky="dawn"] { --sky: radial-gradient(120% 80% at 50% 110%, #ffd3a5 0%, #f2a7a0 26%, #8f8bc6 56%, #34416e 92%); --glow: #fff1d6; }
+      html[data-look="pulse"][data-sky="ocean"] { --sky: radial-gradient(120% 80% at 50% 110%, #6fd6d6 0%, #2b7a9e 28%, #173a5e 58%, #07142a 90%); --glow: #c8f6f2; }
+      html[data-look="pulse"][data-sky="forest"] { --sky: radial-gradient(120% 80% at 50% 110%, #b9cc8c 0%, #55806a 28%, #1f3b33 58%, #0a1613 90%); --glow: #e6f2c4; }
+      html[data-look="pulse"][data-sky="midnight"] { --sky: radial-gradient(120% 80% at 50% 110%, #1b2131 0%, #090b11 50%, #000 85%); --glow: #cfd8ec; }
+      html[data-look="pulse"] body { background: #0e1420 var(--sky) fixed; min-height: 100vh; }
+      html[data-look="pulse"] body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(60% 40% at 50% 100%, color-mix(in srgb, var(--glow) 18%, transparent), transparent 70%); }
+      html[data-look="pulse"] h1, html[data-look="pulse"] h2, html[data-look="pulse"] .x-card h3, html[data-look="pulse"] .cards h3, html[data-look="pulse"] .stat__fig { font-family: var(--serif); letter-spacing: 0.005em; }
+      html[data-look="pulse"] .hero { background: linear-gradient(160deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.03)); border: 1px solid var(--stroke-primary); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+      html[data-look="pulse"] .hero::after { background: radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--glow) 16%, transparent), transparent 60%); }
+      html[data-look="pulse"] .hero__eyebrow { background: rgb(255 255 255 / 0.08); border-color: color-mix(in srgb, var(--glow) 40%, transparent); color: var(--glow); }
+      html[data-look="pulse"] .x-card, html[data-look="pulse"] .cards > div, html[data-look="pulse"] .x-wid, html[data-look="pulse"] .x-flag { border: 1px solid var(--stroke-secondary); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+      html[data-look="pulse"] .x-flag { background: rgb(255 255 255 / 0.05); border-left: 3px solid var(--glow); }
+      html[data-look="pulse"] .x-flag--new { border-left-color: var(--fill-system-red); }
+      html[data-look="pulse"] .x-card.is-here { box-shadow: inset 0 0 0 1.5px var(--glow), 0 0 28px color-mix(in srgb, var(--glow) 22%, transparent); }
+      html[data-look="pulse"] .x-card.is-cursor:not(.is-here) { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--glow) 55%, transparent); }
+      html[data-look="pulse"] .x-tabs button[aria-selected="true"] { background: var(--glow); color: #1b1726; }
+      html[data-look="pulse"] .x-tabs button { color: rgb(238 241 246 / 0.78); }
+      html[data-look="pulse"] .x-seg button[aria-pressed="true"] { background: var(--glow); color: #1b1726; }
+      html[data-look="pulse"] .chip--solid { background: color-mix(in srgb, var(--glow) 22%, transparent); color: var(--glow); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent); }
+      html[data-look="pulse"] .x-gear, html[data-look="pulse"] .theme-btn { color: var(--text-primary); }
+      html[data-look="pulse"] .theme-btn { display: none; }
+      html[data-look="pulse"] .btn { background: rgb(255 255 255 / 0.07); }
+      html[data-look="pulse"] .btn.x-danger { color: var(--fill-system-red); }
+      html[data-look="pulse"] .x-input, html[data-look="pulse"] .x-area { background: rgb(8 12 24 / 0.35); border-color: var(--stroke-primary); }
+      html[data-look="pulse"] .x-input:focus, html[data-look="pulse"] .x-area:focus { outline: none; border-color: color-mix(in srgb, var(--glow) 70%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow) 18%, transparent); }
+      html[data-look="pulse"] .x-break { color: rgb(238 241 246 / 0.6); border-color: var(--stroke-secondary); }
+      html[data-look="pulse"] table tr.is-highlight > * { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+      html[data-look="pulse"] .badge { background: rgb(255 255 255 / 0.08); color: var(--text-primary); }
+      @media (prefers-reduced-motion: reduce) { .x-settings { animation: none; } .x-gear { transition: none; } }
     </style>
       <!-- Fathom - beautiful, simple website analytics -->
     <script src="https://cdn.usefathom.com/script.js" data-site="BWMHNQAD" defer></script>
@@ -81,8 +157,21 @@
         <span class="x-right">
           <span class="chip chip--solid" id="score">Quiz 0/14</span>
           <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch to dark theme"></button>
+          <button class="x-gear" id="gear" type="button" aria-label="Display settings" aria-expanded="false" aria-controls="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
         </span>
       </header>
+      <div class="x-settings" id="settings" role="dialog" aria-label="Display settings" hidden>
+        <h3>Display</h3>
+        <div class="x-row"><span>Look</span><span class="x-seg" id="lookseg" role="group" aria-label="Look"><button type="button" data-v="classic">Classic</button><button type="button" data-v="pulse">Pulse</button></span></div>
+        <div class="x-row" id="classicrow"><span>Theme</span><span class="x-seg" id="modeseg" role="group" aria-label="Theme"><button type="button" data-v="light">Light</button><button type="button" data-v="dark">Dark</button></span></div>
+        <div class="x-row" id="skyrow"><span>Sky</span><div class="x-skies" id="skies">
+          <button type="button" data-v="dusk" aria-label="Dusk" style="--sw: radial-gradient(120% 90% at 50% 110%, #c98f6b, #6d5a7a 35%, #2b3352 65%, #0e1420)"></button>
+          <button type="button" data-v="dawn" aria-label="Dawn" style="--sw: radial-gradient(120% 90% at 50% 110%, #ffd3a5, #f2a7a0 30%, #8f8bc6 62%, #34416e)"></button>
+          <button type="button" data-v="ocean" aria-label="Ocean" style="--sw: radial-gradient(120% 90% at 50% 110%, #6fd6d6, #2b7a9e 32%, #173a5e 64%, #07142a)"></button>
+          <button type="button" data-v="forest" aria-label="Forest" style="--sw: radial-gradient(120% 90% at 50% 110%, #b9cc8c, #55806a 32%, #1f3b33 64%, #0a1613)"></button>
+          <button type="button" data-v="midnight" aria-label="Midnight" style="--sw: radial-gradient(120% 90% at 50% 110%, #1b2131, #090b11 55%, #000)"></button>
+        </div><span class="x-skyname" id="skyname"></span></div>
+      </div>
       <p class="x-swipe" id="swipehint" hidden>Swipe the menu sideways to see more tabs →</p>
       <p class="x-banner" id="savebanner">Your notes and answers save automatically on this device and browser. Download a copy to keep a backup.</p>
       <main class="main">
@@ -551,6 +640,35 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         try { localStorage.removeItem(KEY); } catch (err) {}
         location.reload();
       });
+
+      // ---- Display settings (look, theme, sky) ----
+      (function () {
+        const root = document.documentElement, gear = $("#gear"), panel = $("#settings");
+        const store = (k, v) => { try { localStorage.setItem(k, v); } catch (err) {} };
+        const SKY = { dusk: "Dusk", dawn: "Dawn", ocean: "Ocean", forest: "Forest", midnight: "Midnight" };
+        const mode = () => { const t = root.getAttribute("data-theme"); return t === "light" || t === "dark" ? t : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); };
+        function sync() {
+          const pulse = root.getAttribute("data-look") === "pulse", sky = root.getAttribute("data-sky") || "dusk";
+          setSeg($("#lookseg"), pulse ? "pulse" : "classic");
+          setSeg($("#modeseg"), mode());
+          $("#skyrow").hidden = !pulse; $("#classicrow").hidden = pulse;
+          $("#skies").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === sky));
+          $("#skyname").textContent = SKY[sky];
+        }
+        const open = (o) => { panel.hidden = !o; gear.setAttribute("aria-expanded", o); if (o) sync(); };
+        gear.addEventListener("click", (e) => { e.stopPropagation(); open(panel.hidden); });
+        document.addEventListener("click", (e) => { if (!panel.hidden && !panel.contains(e.target) && e.target !== gear) open(false); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) { open(false); gear.focus(); } });
+        $("#lookseg").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return;
+          if (b.dataset.v === "pulse") root.setAttribute("data-look", "pulse"); else root.removeAttribute("data-look");
+          store("uscc-look", b.dataset.v); sync(); });
+        $("#modeseg").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return;
+          root.setAttribute("data-theme", b.dataset.v); store("hark-theme", b.dataset.v);
+          const t = $("#theme-btn"); if (t) t.setAttribute("aria-label", b.dataset.v === "dark" ? "Switch to light theme" : "Switch to dark theme"); sync(); });
+        $("#skies").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return;
+          root.setAttribute("data-sky", b.dataset.v); store("uscc-sky", b.dataset.v); sync(); });
+        sync();
+      })();
     </script>
   </body>
 </html>
