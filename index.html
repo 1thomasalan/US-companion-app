@@ -30,7 +30,7 @@
       .x-card { padding: 18px 22px; border-radius: var(--r-m); background: var(--fill-tertiary); display: grid; gap: 10px; scroll-margin-top: 90px; transition: opacity var(--dur-quick) ease; }
       .x-card.is-cursor { box-shadow: inset 0 0 0 1.5px var(--fill-primary); }
       .x-card.is-here { box-shadow: inset 0 0 0 2px var(--fill-system-orange); }
-      .x-card.is-past { opacity: 0.55; }
+      .x-card.is-past { opacity: 0.72; }
       .x-card.is-past h3::before { content: "\2713\00a0"; color: var(--fill-system-green); }
       .x-card__top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
       .x-card h3 { font: var(--type-heading); flex: 1 1 260px; }
@@ -43,12 +43,18 @@
       .x-flag b { font-weight: var(--weight-medium); }
       .x-input, .x-area { font: var(--type-body); color: var(--text-primary); background: var(--fill-primary-on); border: 1px solid var(--stroke-primary); border-radius: var(--r-s); padding: 6px 10px; }
       .x-input { width: 100%; max-width: 420px; }
-      .x-blank { width: 16ch; padding: 2px 8px; margin: 0 2px; }
+      .x-blank { width: 16ch; max-width: 100%; padding: 2px 8px; margin: 2px; }
       .x-blank.is-ok { border-color: var(--fill-system-green); box-shadow: inset 0 0 0 1px var(--fill-system-green); }
-      .x-blank.is-no { border-color: var(--fill-system-orange); box-shadow: inset 0 0 0 1px var(--fill-system-orange); }
-      .x-ans { font: var(--type-tag); color: var(--fill-system-orange); }
+      .x-blank.is-no { border-color: var(--fill-system-red); box-shadow: inset 0 0 0 1px var(--fill-system-red); }
+      .x-ans { font: var(--type-small); font-weight: var(--weight-medium); margin: 0 6px 0 2px; }
+      .x-ans.is-ok { color: var(--fill-system-green); }
+      .x-ans.is-no { color: var(--fill-system-red); }
+      .x-blanks p { line-height: 2.1; }
+      .x-blanks .btn { margin-top: 4px; }
+      .section > .fineprint { margin: 0 0 10px; }
+      .btn.x-danger { color: var(--fill-system-red); }
       .x-area { width: 100%; min-height: 70px; resize: vertical; font: var(--type-small); }
-      .x-area[readonly] { background: var(--fill-tertiary); min-height: 160px; }
+      .x-area[readonly] { background: var(--fill-tertiary); min-height: 220px; resize: none; }
       .x-reveal { font: var(--type-small); }
       .x-reveal small { color: var(--text-secondary); }
       .x-num { font: var(--type-label); color: var(--text-secondary); }
@@ -105,7 +111,7 @@
               </thead>
               <tbody>
                 <tr><th scope="row">Law</th><td>Ch. 75</td><td>Ch. 43</td></tr>
-                <tr><th scope="row">Proof, Title 5</td><td>Preponderance (~51%)</td><td>Substantial (~40%)</td></tr>
+                <tr><th scope="row">Proof, Title 5</th><td>Preponderance (~51%)</td><td>Substantial (~40%)</td></tr>
                 <tr class="is-highlight"><th scope="row">Proof, NAF</th><td>Substantial</td><td>Substantial</td></tr>
                 <tr><th scope="row">Tools</th><td>Reprimand, suspension, demotion, removal</td><td>Reassignment, demotion, removal</td></tr>
                 <tr><th scope="row">Mitigation on appeal</th><td>Yes</td><td>No</td></tr>
@@ -127,7 +133,7 @@
           <div class="x-tools">
             <button class="btn" type="button" id="copy">Copy all</button>
             <button class="btn" type="button" id="dl">Download .txt</button>
-            <button class="btn" type="button" id="wipe">Clear saved notes</button>
+            <button class="btn x-danger" type="button" id="wipe">Clear saved notes</button>
             <span class="fineprint" id="hint" aria-live="polite"></span>
           </div>
           <div class="x-card">
@@ -140,8 +146,8 @@
 Does the DoW Ch. 75 memo affect NAF?
 Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           </div>
-          <div class="x-card"><h3>Instructor said</h3><textarea class="x-area" id="n-instructor" aria-label="Instructor said"></textarea></div>
-          <div class="x-card"><h3>Apply to my team</h3><textarea class="x-area" id="n-team" aria-label="Apply to my team"></textarea></div>
+          <div class="x-card"><h3>Instructor said</h3><textarea class="x-area" id="n-instructor" aria-label="Instructor said" placeholder="Quotes, cases and rules of thumb Deborah stresses"></textarea></div>
+          <div class="x-card"><h3>Apply to my team</h3><textarea class="x-area" id="n-team" aria-label="Apply to my team" placeholder="What I will do differently with my own staff"></textarea></div>
         </section>
       </main>
       <footer class="foot">
@@ -170,12 +176,12 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "Three lenses: law, science, strategy."],
           blanks: ["Formal discipline counts as a [prior].", "Is progressive discipline mandatory? [No]", "Formal discipline is written and placed in the [OPF]."] },
         { id: "d1-2", day: 1, start: "10:10", end: "11:10", title: "Problem Employee; Performance vs Misconduct", pages: "pp. 17-22",
-          points: ["Misconduct = won't (Ch. 75); performance = can't (Ch. 43).",
+          points: ["Two kinds of problem: misconduct (Ch. 75) and performance (Ch. 43).",
             "Flow: try everything first (coaching, counseling, training, reassignment) → determine status → performance or misconduct?",
             "Last Rites talk: be truthful, give 2-3 days, encourage counsel, get a signed agreement (binding: Green v. GSA 2000; offering short-notice resignation isn't coercion: Parrott v. DHS 2008).",
             "Burdens: crime ~95%, Title 5 misconduct ~51% preponderance, performance ~40% substantial.",
             "Misconduct penalties can be mitigated on appeal; performance actions cannot."],
-          blanks: ["Misconduct = \"[won]'t\", performance = \"[can]'t\"."],
+          blanks: ["Misconduct is the employee who [won't|wont|won’t|will not]; performance is the one who [can't|cant|can’t|cannot]."],
           callout: { type: "naf", text: "NAF uses substantial evidence for both (MCO P12000.11A, 5007.3)." } },
         { id: "d1-3", day: 1, start: "11:20", end: "12:10", title: "Five Elements: Rule, Notice, Misconduct", pages: "pp. 23-27",
           points: ["Rule → Notice → Misconduct → Penalty → Due Process.",
@@ -221,7 +227,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           widgets: [{ type: "notes", boxes: ["Aggravating", "Mitigating"] },
             { type: "reveal", title: "Question to ask", text: "Was the degree used to rank or select her? Workbook p. 105." }] },
         { id: "d2-1", day: 2, start: "9:00", end: "10:00", title: "Performance Accountability; Preparing a Case", pages: "pp. 50-59",
-          points: ["You need a critical element.", "Standards are MUVA: Measurable, Understandable, Verifiable, Achievable.",
+          points: ["Standards are MUVA: Measurable, Understandable, Verifiable, Achievable.",
             "Dunning: \"If you're incompetent, you can't know you're incompetent.\"",
             "Why supervisors don't act (MSPB 2019): agency culture 83%, no upper-management support 78%, weak HR support 75%, didn't understand the process 60%.",
             "Two officials are required: one proposes, one decides.",
@@ -229,7 +235,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "More job discretion means less objectivity is needed (Graham v. Air Force).",
             "Clarify vague standards BEFORE the PIP (Khan v. DOJ, Jan 29, 2026).",
             "Step 2: show unacceptable performance before AND during the PIP (Santos v. NASA 2021). Document it with notes, a journal, email, a WIGI denial, or the mid-year review.",
-            "Step 3: allow 60-90 days, give a warm-up on new standards, and watch for ratings, awards, or WIGIs due during the PIP (Harris v. DVA 2010)."],
+            "Step 3: check the calendar: start at least 60-90 days before rating time, give a warm-up on new standards, and watch for ratings, awards, or WIGIs due during the PIP (Harris v. DVA 2010)."],
           blanks: ["Good documentation = what you told them, the [date], and the [evidence]."],
           callout: [{ type: "naf", text: "Letter of Requirement with a 30-60 day observation period before the PIP." },
             { type: "naf", text: "The Letter of Requirement lists deficiencies, the required level, supervisor support, and the 30-60 day observation period." }] },
@@ -309,12 +315,12 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         "Table of penalties", "Notoriety", "Clarity of notice", "Rehabilitation potential", "Mitigating circumstances", "Alternative sanctions"];
 
       // ---- State (memory only) ----
-      const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "briefing" };
+      const S = { jst: false, here: {}, cur: { 1: 0, 2: 0 }, notes: {}, pick: {}, quiz: QUIZ.map(() => null), douglas: DOUGLAS.map(() => "Neutral"), tab: "briefing", checked: {} };
       // ---- Local save (this device only) ----
       const KEY = "uscc-class-companion-v1";
       let SAVED = {};
       try { SAVED = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (err) { SAVED = {}; }
-      ["notes", "pick", "here"].forEach((k) => { if (SAVED[k] && typeof SAVED[k] === "object") S[k] = SAVED[k]; });
+      ["notes", "pick", "here", "checked"].forEach((k) => { if (SAVED[k] && typeof SAVED[k] === "object") S[k] = SAVED[k]; });
       if (Array.isArray(SAVED.quiz)) SAVED.quiz.forEach((v, i) => { if (i < S.quiz.length) S.quiz[i] = v; });
       if (Array.isArray(SAVED.douglas)) SAVED.douglas.forEach((v, i) => { if (i < S.douglas.length) S.douglas[i] = v; });
       if (typeof SAVED.jst === "boolean") S.jst = SAVED.jst;
@@ -391,7 +397,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         $("#" + day.id).innerHTML = `<div class="head"><p class="head__eyebrow">Day ${day.n} · ${day.label}</p><h2>${day.n === 1 ? "Discipline: from rule to appeal." : "Performance, EEO and accommodation."}</h2></div>
           <div class="x-tools">${seg("Time zone", ["Agenda times", "Japan time"], "Agenda times").replace("x-seg", "x-seg x-timeseg")}
             <button class="btn" type="button" data-act="prev">Prev (K)</button><button class="btn" type="button" data-act="next">Next (J)</button></div>
-          <p class="fineprint">Japan time assumes US Eastern (+14h; 9:00 AM ET Nov 4 = 11:00 PM JST). Handout doesn't state the zone; check your class link.</p>
+          <p class="fineprint">Japan time assumes US Eastern (+14h; 9:00 AM ET ${day.n === 1 ? "Nov 4 = 11:00 PM JST Wed" : "Nov 5 = 11:00 PM JST Thu"}). Handout doesn't state the zone; check your class link.</p>
           <ol class="x-list">${items.map((i) => i.html).join("")}</ol>`;
       }
       DAYS.forEach(renderDay);
@@ -412,7 +418,15 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         paint(n);
         document.getElementById(list[S.cur[n]].id).scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
       }
-      const norm = (v) => v.trim().toLowerCase().replace(/\s+/g, " ");
+      const norm = (v) => v.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ");
+      function checkCard(card) {
+        card.querySelectorAll(".x-blank").forEach((inp) => {
+          const ans = inp.dataset.ans.split("|"), ok = ans.some((a) => norm(a) === norm(inp.value)), hint = inp.nextElementSibling;
+          inp.classList.toggle("is-ok", ok); inp.classList.toggle("is-no", !ok);
+          hint.classList.toggle("is-ok", ok); hint.classList.toggle("is-no", !ok);
+          hint.textContent = ok ? "✓" : "✗ " + ans[0];
+        });
+      }
       DAYS.forEach((day) => {
         const root = $("#" + day.id);
         root.addEventListener("click", (e) => {
@@ -421,11 +435,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           if (act === "prev") move(day.n, -1);
           else if (act === "next") move(day.n, 1);
           else if (act === "here") { const i = daySessions(day.n).findIndex((s) => s.id === card.dataset.id); S.here[day.n] = i; S.cur[day.n] = i; paint(day.n); }
-          else if (act === "check") card.querySelectorAll(".x-blank").forEach((inp) => {
-            const ans = inp.dataset.ans.split("|"), ok = ans.some((a) => norm(a) === norm(inp.value));
-            inp.classList.toggle("is-ok", ok); inp.classList.toggle("is-no", !ok);
-            inp.nextElementSibling.textContent = ok ? "" : ans[0];
-          });
+          else if (act === "check") { checkCard(card); S.checked[card.dataset.id] = true; }
           else if (b.closest(".x-timeseg")) { S.jst = b.dataset.v === "Japan time"; updateTimes(); }
           else if (b.closest(".x-seg") && card) { S.pick[card.dataset.id] = b.dataset.v; setSeg(b.parentNode, b.dataset.v); }
         });
@@ -444,7 +454,9 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
       const LEVELS = ["Mitigating", "Neutral", "Aggravating"];
       $("#douglas").innerHTML = DOUGLAS.map((f, i) => `<li class="x-card x-card__top" data-i="${i}"><span class="x-num">${i + 1}</span><h3>${esc(f)}</h3>${seg(f, LEVELS, "Neutral")}</li>`).join("");
       function tally() {
-        $("#tally").innerHTML = LEVELS.map((l) => `<div class="stat"><span class="stat__fig">${S.douglas.filter((v) => v === l).length}</span><span class="stat__label">${l}</span></div>`).join("");
+        const n = (l) => S.douglas.filter((v) => v === l).length, net = n("Aggravating") - n("Mitigating");
+        $("#tally").innerHTML = LEVELS.map((l) => `<div class="stat"><span class="stat__fig">${n(l)}</span><span class="stat__label">${l}</span></div>`).join("")
+          + `<div class="stat"><span class="stat__fig">${net > 0 ? "Harsher" : net < 0 ? "Lighter" : "Even"}</span><span class="stat__label">Penalty leans</span></div>`;
       }
       $("#douglas").addEventListener("click", (e) => {
         const b = e.target.closest("button"); if (!b) return;
@@ -482,7 +494,8 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           sec("Questions to ask", "#n-questions"), sec("Instructor said", "#n-instructor"), sec("Apply to my team", "#n-team"),
           `== Quiz ==\n${QUIZ.map((q, i) => `${i + 1}. ${q[0]} ${S.quiz[i] || "-"}`).join("\n")}`].filter(Boolean).join("\n\n");
       }
-      $("#copy").addEventListener("click", async () => {
+      $("#copy").addEventListener("click", async (e) => {
+        e.currentTarget.blur();
         const t = allText();
         try { await navigator.clipboard.writeText(t); $("#hint").textContent = "Copied."; }
         catch (err) { const a = $("#allnotes"); a.value = t; a.focus(); a.select(); $("#hint").textContent = "Selected. Press Ctrl+C to copy."; }
@@ -497,7 +510,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
       const blanks = () => [...document.querySelectorAll(".x-blank")];
       const guesses = () => [...document.querySelectorAll("#quizlist .x-input")];
       function snapshot() {
-        return { v: 1, saved: Date.now(), notes: S.notes, pick: S.pick, here: S.here, quiz: S.quiz, douglas: S.douglas, jst: S.jst, tab: S.tab,
+        return { v: 1, saved: Date.now(), notes: S.notes, pick: S.pick, here: S.here, checked: S.checked, quiz: S.quiz, douglas: S.douglas, jst: S.jst, tab: S.tab,
           free: Object.fromEntries(FREE.map((id) => [id, $("#" + id).value])),
           blanks: blanks().map((b) => b.value), guesses: guesses().map((g) => g.value),
           revealed: [...document.querySelectorAll("#quizlist li")].map((li) => !li.querySelector("[hidden]")) };
@@ -515,6 +528,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
       (function restore() {
         if (SAVED.free) FREE.forEach((id) => { if (typeof SAVED.free[id] === "string") $("#" + id).value = SAVED.free[id]; });
         if (Array.isArray(SAVED.blanks)) blanks().forEach((b, i) => { if (SAVED.blanks[i]) b.value = SAVED.blanks[i]; });
+        Object.keys(S.checked).forEach((id) => { const c = document.getElementById(id); if (c) checkCard(c); });
         if (Array.isArray(SAVED.guesses)) guesses().forEach((g, i) => { if (SAVED.guesses[i]) g.value = SAVED.guesses[i]; });
         document.querySelectorAll("#quizlist li").forEach((li, i) => {
           if (SAVED.revealed && SAVED.revealed[i]) { li.querySelector("[hidden]").hidden = false; const b = li.querySelector('[data-act="reveal"]'); if (b) b.remove(); }
