@@ -10,7 +10,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap"
     />
-    <script>try { var R = document.documentElement, L = localStorage.getItem("uscc-look"), K = localStorage.getItem("uscc-sky"), T = localStorage.getItem("hark-theme"); if (L !== "classic") R.setAttribute("data-look", "pulse"); if (K) R.setAttribute("data-sky", K); R.setAttribute("data-theme", T === "dark" || T === "light" ? T : (L === "classic" && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")); } catch (e) { document.documentElement.setAttribute("data-look", "pulse"); document.documentElement.setAttribute("data-theme", "light"); }</script>
+    <script>try { var R = document.documentElement, L = localStorage.getItem("uscc-look"), K = localStorage.getItem("uscc-sky"), T = localStorage.getItem("hark-theme"); if (L !== "classic") R.setAttribute("data-look", "pulse"); if (K) R.setAttribute("data-sky", K); R.setAttribute("data-theme", T === "dark" || T === "light" ? T : (L === "classic" && !matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark")); } catch (e) { document.documentElement.setAttribute("data-look", "pulse"); document.documentElement.setAttribute("data-theme", "dark"); }</script>
     <link rel="stylesheet" href="hark.css" />
     <link rel="stylesheet" href="hark-hero.css" />
     <style>
