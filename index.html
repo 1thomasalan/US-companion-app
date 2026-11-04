@@ -210,7 +210,7 @@
         .x-title { font: var(--type-label); color: var(--text-primary); line-height: 1.15; min-width: 0; }
         .x-title span { display: block; font: var(--type-caption); color: var(--text-secondary); }
         .x-top .x-right { gap: 8px; }
-        .x-top .theme-btn, .x-top .x-gear { width: 40px; height: 40px; background: var(--fill-tertiary); color: var(--text-primary); border: 1px solid var(--stroke-secondary); }
+        .x-top .theme-btn, .x-top .x-gear { width: var(--tap); height: var(--tap); background: var(--fill-tertiary); color: var(--text-primary); border: 1px solid var(--stroke-secondary); }
         .x-top .chip--solid { padding: 6px 12px 6px 10px; }
         .x-bar { padding: 4px; }
         .x-tabs { flex: 1; overflow: visible; }
@@ -221,7 +221,7 @@
         .x-settings { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); left: 12px; right: 12px; width: auto; transform-origin: bottom center; animation: x-sheet 260ms var(--ease-out); box-shadow: 0 -8px 40px rgb(0 0 0 / 0.25); }
         .x-kbd { display: none; }
         .x-bar { top: calc(env(safe-area-inset-top, 0px) + 6px); }
-        .x-bar::before { content: ""; position: absolute; left: -24px; right: -24px; top: calc(-6px - env(safe-area-inset-top, 0px)); height: calc(7px + env(safe-area-inset-top, 0px)); z-index: -1; background: var(--fill-primary-on); pointer-events: none; }
+        .x-bar::before { content: ""; position: absolute; left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter)); top: calc(-6px - env(safe-area-inset-top, 0px)); height: calc(7px + env(safe-area-inset-top, 0px)); z-index: -1; background: var(--fill-primary-on); pointer-events: none; }
         html[data-look="pulse"] .x-bar::before { background: rgb(14 20 32 / 0.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
         html[data-look="pulse"][data-theme="light"] .x-bar::before { background: rgb(243 244 250 / 0.92); }
         html[data-look="pulse"] .x-bar { background: rgb(14 20 32 / 0.86); }
@@ -238,6 +238,90 @@
       html[data-look="pulse"][data-theme="light"] .x-top .x-title { text-shadow: none; }
       html[data-look="pulse"] .x-top .chip--solid { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
       @media (prefers-reduced-motion: reduce) { .x-settings { animation: none; } .x-gear { transition: none; } }
+
+      @media (max-width: 640px) { body { overflow-x: clip; } }
+      html[data-look="pulse"][data-theme="light"] .x-tabs { background: #eef0f5; }
+      html[data-look="pulse"][data-theme="light"] .badge, html[data-look="pulse"][data-theme="light"] .foot .badge { background: #eceef4; color: #1b2033; }
+      /* ---- Day colors and visuals ---- */
+      :root { --x-gold: #d6a531; --x-gold-ink: #7a5a0c; --x-red: #c62f27; --x-red-ink: #b0261f; }
+      :root[data-theme="dark"] { --x-gold-ink: #f0c869; --x-red-ink: #ff9a90; }
+      #day1, #briefing { --x-day: #c62f27; --x-day-ink: #b0261f; --x-on: #fff; }
+      #day2 { --x-day: #0e5a6e; --x-day-ink: #0e5a6e; --x-on: #fff; }
+      :root[data-theme="dark"] #day1, :root[data-theme="dark"] #briefing { --x-day-ink: #ff9a90; }
+      :root[data-theme="dark"] #day2 { --x-day: #137489; --x-day-ink: #7fd6e6; }
+      .x-dayband { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 20px 24px; border-radius: var(--r-l); background: linear-gradient(120deg, var(--x-day), color-mix(in srgb, var(--x-day) 78%, #000)); color: var(--x-on); font: var(--type-heading); box-shadow: var(--hark-shadow); text-shadow: none; }
+      .x-dayband b { font: var(--type-title); font-weight: var(--weight-bold); letter-spacing: 0.04em; }
+      .x-dayband i { font-style: normal; opacity: 0.6; }
+      .x-card__top.x-shead { margin: -16.5px -20.5px 0; padding: 14px 20.5px; border-radius: calc(var(--r-m) - 1.5px) calc(var(--r-m) - 1.5px) 0 0; background: color-mix(in srgb, var(--x-day) 16%, transparent); border-left: 4px solid var(--x-day); align-items: center; gap: 8px 12px; }
+      .x-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .x-shead .x-time { min-width: 0; padding: 2px 10px; border-radius: var(--r-pill); background: var(--x-day); color: var(--x-on); font: var(--type-tag); font-weight: var(--weight-medium); white-space: nowrap; }
+      .x-shead .pill { padding: 2px 10px; background: var(--fill-primary-on); border: 1px solid color-mix(in srgb, var(--x-day) 45%, transparent); color: var(--text-primary); font: var(--type-tag); white-space: nowrap; }
+      @media (max-width: 640px) { .x-card__top.x-shead { margin: -14.5px -14.5px 0; padding: 12px 14.5px; } .x-dayband { padding: 16px 18px; } }
+      html .x-flag.x-flag--naf:not(#_), html .x-flag.x-flag--new:not(#_) { border: 1px solid color-mix(in srgb, var(--x-tone) 55%, transparent); border-left: 4px solid var(--x-tone); background: color-mix(in srgb, var(--x-tone) 14%, var(--fill-primary-on)); }
+      .x-flag--naf { --x-tone: var(--x-gold); }
+      .x-flag--new { --x-tone: var(--x-red); }
+      .x-flag b.x-tag { display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: var(--r-pill); background: var(--x-tone); color: #fff; font: var(--type-tag); font-weight: var(--weight-bold); letter-spacing: 0.04em; vertical-align: 1px; }
+      .x-flag--naf b.x-tag { color: #1b1726; }
+      .x-viz { container-type: inline-size; }
+      .x-viz h4 { color: var(--x-day-ink); }
+      .x-viz--naf { --x-day: var(--x-gold); --x-day-ink: var(--x-gold-ink); --x-on: #1b1726; border-left: 4px solid var(--x-gold) !important; }
+      .x-viz .x-flow, .x-viz .x-tl, .x-elems ol { list-style: none; margin: 0; padding: 0; }
+      .x-viz .x-flow > li, .x-viz .x-tl > li, .x-viz .x-elems li, .cards .x-mini li { margin: 0; }
+      .x-flow { display: flex; align-items: stretch; }
+      .x-flow__step { flex: 1 1 0; min-width: 0; display: grid; gap: 4px; align-content: start; padding: 12px; border-radius: var(--r-s); background: color-mix(in srgb, var(--x-day) 10%, transparent); border: 1px solid color-mix(in srgb, var(--x-day) 35%, transparent); }
+      .x-flow__step b { font: var(--type-label); font-weight: var(--weight-medium); }
+      .x-flow__step span { color: var(--text-secondary); }
+      .x-n { justify-self: start; display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 8px; border-radius: var(--r-pill); background: var(--x-day); color: var(--x-on); font: var(--type-tag); font-weight: var(--weight-bold); }
+      .x-flow__arrow { flex: none; display: grid; place-items: center; width: 22px; color: var(--x-day-ink); font: var(--type-heading); }
+      .x-flow--ladder { align-items: flex-start; }
+      .x-flow--ladder .x-flow__step { margin-top: calc(var(--i) * 16px); }
+      .x-flow--ladder .x-flow__arrow { align-self: center; }
+      .x-foot { color: var(--text-secondary); font: var(--type-caption); }
+      @container (max-width: 560px) {
+        .x-flow { flex-direction: column; }
+        .x-flow__arrow { width: auto; height: 20px; transform: rotate(90deg); }
+        .x-flow--ladder .x-flow__step { margin-top: 0; margin-left: calc(var(--i) * 12px); }
+        .x-flow--ladder .x-flow__arrow { align-self: flex-start; margin-left: calc(var(--i) * 12px + 10px); }
+      }
+      .x-tl { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+      .x-tl > li { position: relative; display: grid; gap: 2px; align-content: start; padding: 24px 4px 0; text-align: center; }
+      .x-tl > li::before { content: ""; position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: color-mix(in srgb, var(--x-day) 55%, transparent); }
+      .x-tl > li:first-child::before { left: 50%; }
+      .x-tl > li:last-child::before { right: 50%; }
+      .x-tl > li::after { content: ""; position: absolute; top: 2px; left: calc(50% - 7px); width: 14px; height: 14px; border-radius: 50%; background: var(--x-day); box-shadow: 0 0 0 3px var(--fill-primary-on); }
+      .x-tl b { font: var(--type-label); font-weight: var(--weight-bold); color: var(--x-day-ink); }
+      .x-tl small { font: var(--type-caption); color: var(--text-secondary); }
+      @container (max-width: 560px) {
+        .x-tl { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+        .x-tl > li { padding: 0 0 0 28px; text-align: left; }
+        .x-tl > li::before { top: 0; bottom: -12px; left: 6px; right: auto; width: 2px; height: auto; }
+        .x-tl > li:first-child::before { left: 6px; top: 6px; }
+        .x-tl > li:last-child::before { right: auto; bottom: auto; height: 6px; }
+        .x-tl > li::after { top: 2px; left: 0; }
+      }
+      .x-elems { display: flex; gap: 8px; align-items: flex-start; }
+      .x-elems__grp { flex: 3 1 0; min-width: 0; display: grid; gap: 6px; }
+      .x-elems__rest { flex: 2 1 0; min-width: 0; }
+      .x-elems ol { display: flex; gap: 8px; }
+      .x-elems li { flex: 1 1 0; min-width: 0; display: grid; justify-items: center; gap: 4px; padding: 12px 6px; border-radius: var(--r-s); text-align: center; background: var(--fill-tertiary); border: 1px solid var(--stroke-primary); font: var(--type-label); }
+      .x-elems__grp li { background: color-mix(in srgb, var(--x-day) 14%, transparent); border-color: color-mix(in srgb, var(--x-day) 45%, transparent); }
+      .x-elems__rest .x-n { background: var(--fill-segment); color: var(--text-secondary); }
+      .x-elems__cap { position: relative; padding-top: 12px; text-align: center; font: var(--type-caption); color: var(--x-day-ink); font-weight: var(--weight-medium); }
+      .x-elems__cap::before { content: ""; position: absolute; top: 0; left: 8px; right: 8px; height: 8px; border: 2px solid var(--x-day); border-top: 0; border-radius: 0 0 6px 6px; }
+      @container (max-width: 560px) {
+        .x-elems { flex-direction: column; align-items: stretch; }
+        .x-elems ol { flex-direction: column; }
+        .x-elems li { display: flex; justify-content: flex-start; gap: 10px; padding: 8px 12px; text-align: left; }
+        .x-elems__grp { grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; column-gap: 10px; }
+        .x-elems__cap { padding: 0 0 0 14px; max-width: 12ch; display: flex; align-items: center; text-align: left; }
+        .x-elems__cap::before { top: 6px; bottom: 6px; left: 0; right: auto; width: 8px; height: auto; border: 2px solid var(--x-day); border-left: 0; border-radius: 0 6px 6px 0; }
+      }
+      .x-mini { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+      .x-mini li { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--stroke-primary); font: var(--type-small); }
+      .x-mini li.is-on { background: color-mix(in srgb, var(--x-day) 14%, transparent); border-color: color-mix(in srgb, var(--x-day) 45%, transparent); }
+      .x-mini li:not(.is-on) .x-n { background: var(--fill-segment); color: var(--text-secondary); }
+      .x-mini .x-n { min-width: 20px; height: 20px; padding: 0 6px; }
+      .x-mini + .x-foot { margin-top: 6px; }
     </style>
       <!-- Fathom - beautiful, simple website analytics -->
     <script src="https://cdn.usefathom.com/script.js" data-site="BWMHNQAD" defer></script>
@@ -345,8 +429,8 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
       // ---- Data. Add sessions, points, blanks or callouts here. ----
       // blanks: sentences with [answer|alternate] gaps. callout: { type: "naf" | "new", text }.
       const DAYS = [
-        { n: 1, id: "day1", label: "Wed Nov 4", wd: ["Wed", "Thu"] },
-        { n: 2, id: "day2", label: "Thu Nov 5", wd: ["Thu", "Fri"] },
+        { n: 1, id: "day1", label: "Wed Nov 4", wd: ["Wed", "Thu"], band: ["Wed, Nov 4", "Accountability, Part I"] },
+        { n: 2, id: "day2", label: "Thu Nov 5", wd: ["Thu", "Fri"], band: ["Thu, Nov 5", "Accountability, Part II"] },
       ];
       const BREAKS = [
         ["10:00", "10:10", "Break"], ["11:10", "11:20", "Break"], ["12:10", "13:10", "Lunch"],
@@ -361,21 +445,21 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "Three lenses: law, science, strategy."],
           blanks: ["Formal discipline counts as a [prior].", "Is progressive discipline mandatory? [No]", "Formal discipline is written and placed in the [OPF]."] },
         { id: "d1-2", day: 1, start: "10:10", end: "11:10", title: "Problem Employee; Performance vs Misconduct", pages: "pp. 17-22",
+          widgets: [{ type: "flow", before: true, steps: [["0", "Try coaching, counseling, mentoring, training, reassignment"], ["1", "Determine employee status"], ["2", "Performance or misconduct? Read the critical elements"]] }],
           points: ["Two kinds of problem: misconduct (Ch. 75) and performance (Ch. 43).",
-            "Flow: try everything first (coaching, counseling, training, reassignment) → determine status → performance or misconduct?",
             "Last Rites talk: be truthful, give 2-3 days, encourage counsel, get a signed agreement (binding: Green v. GSA 2000; offering short-notice resignation isn't coercion: Parrott v. DHS 2008).",
             "Burdens: crime ~95%, Title 5 misconduct ~51% preponderance, performance ~40% substantial.",
             "Misconduct penalties can be mitigated on appeal; performance actions cannot."],
           blanks: ["Misconduct is the employee who [won't|wont|won’t|will not]; performance is the one who [can't|cant|can’t|cannot]."],
           callout: { type: "naf", text: "NAF uses substantial evidence for both (MCO P12000.11A, 5007.3)." } },
         { id: "d1-3", day: 1, start: "11:20", end: "12:10", title: "Five Elements: Rule, Notice, Misconduct", pages: "pp. 23-27",
-          points: ["Rule → Notice → Misconduct → Penalty → Due Process.",
-            "A rule can come from law, regulation, policy, the supervisor's directive, or \"should have known\"; it needs a nexus to the job.",
+          points: ["A rule can come from law, regulation, policy, the supervisor's directive, or \"should have known\"; it needs a nexus to the job.",
             "Notice: group notice, a specific directive (email is great), training, or common knowledge.",
             "Proof: observation, witnesses, video or logs, admission.",
             "Hillen credibility factors: opportunity to observe, character, prior inconsistent statement, bias, consistency with evidence, improbability, demeanor."],
           blanks: ["Lowest discipline a supervisor can issue = [Letter of Reprimand|reprimand]."],
-          widgets: [{ type: "case", title: "Dock 4 credibility",
+          widgets: [{ type: "elements", before: true, items: ["Rule", "Notice", "Misconduct", "Penalty", "Due process"], bracket: 3, caption: "The first three are enough for a reprimand." },
+            { type: "case", title: "Dock 4 credibility",
             text: ["A vehicle was scratched.", "Chris (accuser): clear view from 50 ft, but texted \"I'm going to get Taylor fired today\" at 0830, and was pacing and shouting.",
               "Taylor (forklift operator): says they were on break; calm, offered the forklift for inspection. Key log shows Taylor had Forklift #3 from 0845 to 1100."],
             picker: { label: "More credible", options: ["Chris", "Taylor"] },
@@ -401,9 +485,10 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "An MSPB appeal costs about $100K (GAO); agencies lose about 1 in 5.",
             "Cows kill 20x more people than sharks: removal is less scary than it feels.",
             "Other forums: EEOC, OSC, arbitration."],
-          callout: [{ type: "naf", text: "NAF appeals go to the Head of the Local NAFI (15 days), then HQMC (MR) (15 days). Final; no MSPB." },
-            { type: "naf", text: "Step 1: hearing within 60 days if requested, impartial hearing officer, decision within 60 days. Step 2: decision within 60 days." }],
-          widgets: [{ type: "timeline", rows: [["Aug 1", "Misconduct"], ["Aug 8", "Proposal"], ["Aug 18", "Written response"], ["Aug 25", "Oral response"], ["Sep 8", "Decision"]] }] },
+          widgets: [{ type: "timeline", title: "Removal timeline", rows: [["Aug 1", "Misconduct", "Day 1"], ["Aug 8", "Proposal letter (send them home)", "+7"], ["Aug 18", "Written reply", "+17"], ["Aug 25", "Oral reply", "+24"], ["Sep 8", "Decision", "+38"]] },
+            { type: "flow", tone: "naf", title: "NAF appeal path", steps: [["Step 1", "Head of Local NAFI", "within 15 days of the effective date. A hearing within 60 days if requested (impartial hearing officer), and a decision within 60 days."],
+              ["Step 2", "HQMC (MR)", "within 15 days. Decision within 60 days. Final, no further appeal."]],
+              foot: "Covers suspensions >30 days, demotions, and separations (nonprobationary employees)." }] },
         { id: "d1-6", day: 1, start: "15:10", end: "16:00", title: "Workshop: Devon case", pages: "pp. 45-46",
           points: ["A GS-14 claimed an MS degree she doesn't have; strong record.",
             "Devon: GS-14, hired about 10 years ago from the private sector; claimed an MS (has a BS) on her first and later applications.",
@@ -437,7 +522,9 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "Decision letter: cites the elements and incidents, summarizes the response, rules on each incident, sets an effective date (COB), and gives appeal rights.",
             "A disability request mid-PIP: pause, accommodate, and don't lower the standard."],
           blanks: ["A 30-day PIP has [4|four] weekly cycles.", "Copy the follow-up email to your [advisor]."],
-          widgets: [{ type: "reveal", title: "PIP letter must include", text: "Failed critical elements; minimum retention level; length; consequences; weekly meetings; first-week assignment; contact person." }] },
+          widgets: [{ type: "flow", before: true, title: "PIP flow", steps: [["1", "PIP letter", "Failed element, retention level, length, consequences"], ["2", "Weekly", "Meet, critique orally, then email the same day"],
+              ["3", "Decide", "Pass = warning letter (1 yr). Fail = reassign, last rites, or propose removal"], ["4", "2nd level", "Decision letter, effective COB, appeal rights"]] },
+            { type: "reveal", title: "PIP letter must include", text: "Failed critical elements; minimum retention level; length; consequences; weekly meetings; first-week assignment; contact person." }] },
         { id: "d2-3", day: 2, start: "11:20", end: "12:10", title: "Performance Under Ch. 75; Workshop", pages: "pp. 68-71",
           points: ["The Sept 30, 2025 Pentagon memo says use Ch. 75 for poor performers.",
             "The Sept 30, 2025 memo \"Separation of Employees with Unacceptable Performance\": act \"with speed and conviction\"; DoW components use Ch. 75 removal procedures, subject to bargaining.",
@@ -456,14 +543,15 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
             "Process: counseling → formal complaint → investigation → hearing or FAD → EEOC appeal → federal court."],
           widgets: [{ type: "reveal", title: "Self-check", text: "Same decision if the protected trait were different? Backed by objective evidence?" }] },
         { id: "d2-5", day: 2, start: "14:10", end: "15:00", title: "Reasonable Accommodation: Disability", pages: "pp. 80-89",
-          points: ["No magic words; it's an interactive process.", "Order: current job → vacant same grade → lower grade → removal.",
+          points: ["No magic words; it's an interactive process.",
             "The Rehab Act uses ADA standards; the ADAAA (2009) broadened \"disability.\"",
             "Analysis: disabled → qualified → requested → granted/denied → undue hardship?",
             "Keep medical records in separate confidential files.",
             "Essential functions: why the job exists, few others can do it, specialized, the PD.",
             "Requests are prospective. \"Reasonable\" means effective; the employee's preference isn't required.",
             "Not undue hardship: a flexible schedule used for 4 years; an empty office for ADHD."],
-          widgets: [{ type: "notes", boxes: ["Hypo: Emory, GS-5 mail clerk, 10 lb lift limit (PD says 35 lb), 6 hrs/week of PT, no leave left. Options?"] },
+          widgets: [{ type: "flow", before: true, ladder: true, title: "Accommodation ladder", steps: [["1", "Accommodate in current job (interactive process)"], ["2", "Vacant funded job, same grade"], ["3", "Vacant job, lower grade"], ["4", "Remove for medical inability, or disability retirement"]] },
+            { type: "notes", boxes: ["Hypo: Emory, GS-5 mail clerk, 10 lb lift limit (PD says 35 lb), 6 hrs/week of PT, no leave left. Options?"] },
             { type: "poll", title: "Ellen reports Charlie sleeping at his desk. Is that an RA request?", options: ["Yes", "No"] },
             { type: "reveal", title: "Reveal", text: "No: a request links a medical condition to a work need, from the employee or their representative." }] },
         { id: "d2-6", day: 2, start: "15:10", end: "16:00", title: "Pregnancy & Religion", pages: "pp. 89-95",
@@ -553,7 +641,16 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
       requestAnimationFrame(swipeHint); window.addEventListener("load", swipeHint);
 
       // ---- Briefing ----
-      $("#takeaways").innerHTML = TAKEAWAYS.map(([h, t], i) => `<div><h3>${i + 1}. ${esc(h)}</h3><p>${esc(t)}</p></div>`).join("");
+      const ELEMENTS = ["Rule", "Notice", "Misconduct", "Penalty", "Due process"];
+      function elementsHTML(w) {
+        const li = (t, k) => `<li><span class="x-n">${k + 1}</span>${esc(t)}</li>`;
+        return `<div class="x-wid x-viz"><h4>Five elements</h4><div class="x-elems">
+          <div class="x-elems__grp"><ol>${w.items.slice(0, w.bracket).map(li).join("")}</ol><p class="x-elems__cap">${esc(w.caption)}</p></div>
+          <div class="x-elems__rest"><ol start="${w.bracket + 1}">${w.items.slice(w.bracket).map((t, k) => li(t, k + w.bracket)).join("")}</ol></div></div></div>`;
+      }
+      $("#takeaways").innerHTML = TAKEAWAYS.map(([h, t], i) => `<div><h3>${i + 1}. ${esc(h)}</h3>${h === "5 elements"
+        ? `<ol class="x-mini" aria-label="${esc(t)}">${ELEMENTS.map((e, k) => `<li class="${k < 3 ? "is-on" : ""}"><span class="x-n">${k + 1}</span>${esc(e)}</li>`).join("")}</ol><p class="x-foot">The first three are enough for a reprimand.</p>`
+        : `<p>${esc(t)}</p>`}</div>`).join("");
 
       // ---- Day tabs ----
       function blankHTML(text, id, k) {
@@ -571,19 +668,25 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           <p class="x-tools"><span class="x-num">${esc(w.picker.label)}</span>${seg(w.picker.label, w.picker.options, S.pick[s.id])}</p>${reveal("Reveal", w.reveal)}</div>`;
         if (w.type === "poll") return `<div class="x-wid"><h4>Poll: ${esc(w.title)}</h4><div class="x-radio" role="radiogroup" aria-label="Your guess">${w.options.map((o) =>
           `<label><input type="radio" name="poll-${s.id}" value="${esc(o)}"${S.pick[s.id] === o ? " checked" : ""}> ${esc(o)}</label>`).join("")}</div>${note(s, "Poll notes")}</div>`;
-        if (w.type === "timeline") return `<ol class="timeline">${w.rows.map(([d, t]) => `<li><p class="timeline__when">${esc(d)}</p><div class="timeline__what">${esc(t)}</div></li>`).join("")}</ol>`;
+        if (w.type === "timeline") return `<div class="x-wid x-viz">${w.title ? `<h4>${esc(w.title)}</h4>` : ""}<ol class="x-tl" style="--n:${w.rows.length}">${w.rows.map(([d, t, m]) =>
+          `<li>${m ? `<b>${esc(m)}</b>` : ""}<span>${esc(t)}</span><small>${esc(d)}</small></li>`).join("")}</ol></div>`;
+        if (w.type === "flow") return `<div class="x-wid x-viz${w.tone === "naf" ? " x-viz--naf" : ""}">${w.title ? `<h4>${w.tone === "naf" ? "★ " : ""}${esc(w.title)}</h4>` : ""}
+          <ol class="x-flow${w.ladder ? " x-flow--ladder" : ""}">${w.steps.map(([n, t, x], k) => `${k ? `<li class="x-flow__arrow" aria-hidden="true">›</li>` : ""}<li class="x-flow__step" style="--i:${k}">${n ? `<span class="x-n">${esc(n)}</span>` : ""}<b>${esc(t)}</b>${x ? `<span>${esc(x)}</span>` : ""}</li>`).join("")}</ol>
+          ${w.foot ? `<p class="x-foot">${esc(w.foot)}</p>` : ""}</div>`;
+        if (w.type === "elements") return elementsHTML(w);
         if (w.type === "notes") return `<div class="pair">${w.boxes.map((k) => note(s, k)).join("")}</div>`;
         if (w.type === "reveal") return reveal(w.title, w.text);
         return "";
       }
       function sessionHTML(s) {
-        const c = [].concat(s.callout || []).map((o) => `<div class="x-flag ${o.type === "new" ? "x-flag--new" : ""}"><b>${o.type === "new" ? "New" : "NAF"}:</b> ${esc(o.text)}</div>`).join("");
-        const w = (s.widgets || []).map((x) => widgetHTML(x, s)).join("");
+        const c = [].concat(s.callout || []).map((o) => `<div class="x-flag ${o.type === "new" ? "x-flag--new" : "x-flag--naf"}"><b class="x-tag">${o.type === "new" ? "NEW" : "★ NAF"}</b>${esc(o.text)}</div>`).join("");
+        const w = (s.widgets || []).filter((x) => !x.before).map((x) => widgetHTML(x, s)).join("");
+        const w0 = (s.widgets || []).filter((x) => x.before).map((x) => widgetHTML(x, s)).join("");
         const b = (s.blanks || []).length ? `<div class="x-blanks">${s.blanks.map((t, k) => `<p>${blankHTML(t, s.id, k)}</p>`).join("")}<p><button class="btn" type="button" data-act="check">Check</button></p></div>` : "";
         const p = s.picker ? `<p class="x-tools"><span class="x-num">${esc(s.picker.label)}</span>${seg(s.picker.label, s.picker.options, S.pick[s.id])}</p>` : "";
         return `<li class="x-card" id="${s.id}" data-id="${s.id}">
-          <div class="x-card__top"><span class="x-time" data-day="${s.day}" data-start="${s.start}" data-end="${s.end}"></span><h3>${esc(s.title)}</h3><span class="pill">${esc(s.pages)}</span></div>
-          <ul>${s.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>${b}${w}${c}${p}
+          <div class="x-card__top x-shead"><h3>${esc(s.title)}</h3><span class="x-chips"><span class="x-time" data-day="${s.day}" data-start="${s.start}" data-end="${s.end}"></span><span class="pill">${esc(s.pages)}</span></span></div>
+          ${w0}<ul>${s.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>${b}${w}${c}${p}
           <textarea class="x-area" data-note="${s.id}" placeholder="Notes" aria-label="Notes for ${esc(s.title)}">${esc(S.notes[s.id] || "")}</textarea>
           <p><button class="btn" type="button" data-act="here">I'm here</button></p>
         </li>`;
@@ -592,7 +695,8 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         const items = SESSIONS.filter((s) => s.day === day.n).map((s) => ({ t: mins(s.start), html: sessionHTML(s) }))
           .concat(BREAKS.map(([a, b, l]) => ({ t: mins(a), html: `<li class="x-break">${l} · <span data-day="${day.n}" data-start="${a}" data-end="${b}"></span></li>` })))
           .sort((x, y) => x.t - y.t);
-        $("#" + day.id).innerHTML = `<div class="head"><p class="head__eyebrow">Day ${day.n} · ${day.label}</p><h2>${day.n === 1 ? "Discipline: from rule to appeal." : "Performance, EEO and accommodation."}</h2></div>
+        $("#" + day.id).innerHTML = `<div class="x-dayband"><b>DAY ${day.n}</b><i aria-hidden="true">·</i><span>${esc(day.band[0])}</span><i aria-hidden="true">·</i><span>${esc(day.band[1])}</span></div>
+          <div class="head"><h2>${day.n === 1 ? "Discipline: from rule to appeal." : "Performance, EEO and accommodation."}</h2></div>
           <div class="x-tools">${seg("Time zone", ["Agenda times", "Japan time"], "Agenda times").replace("x-seg", "x-seg x-timeseg")}
             <span class="x-pn"><button class="btn" type="button" data-act="prev">Prev<span class="x-kbd">&nbsp;(K)</span></button><button class="btn" type="button" data-act="next">Next<span class="x-kbd">&nbsp;(J)</span></button></span></div>
           <p class="fineprint">Japan time assumes US Eastern (+14h; 9:00 AM ET ${day.n === 1 ? "Nov 4 = 11:00 PM JST Wed" : "Nov 5 = 11:00 PM JST Thu"}). Handout doesn't state the zone; check your class link.</p>
