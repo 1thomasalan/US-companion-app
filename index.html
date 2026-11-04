@@ -217,8 +217,20 @@
         .x-tabs button { flex: 1 1 0; min-width: 0; padding: 8px 2px; font-size: 13px; text-align: center; }
         .t-full { display: none; }
         .t-short { display: inline; }
-        .x-settings { top: calc(env(safe-area-inset-top, 0px) + 60px); right: 16px; }
+        .x-top .x-right { gap: 10px; }
+        .x-settings { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); left: 12px; right: 12px; width: auto; transform-origin: bottom center; animation: x-sheet 260ms var(--ease-out); box-shadow: 0 -8px 40px rgb(0 0 0 / 0.25); }
+        .x-kbd { display: none; }
+        .x-bar::before { content: ""; position: absolute; left: -16px; right: -16px; top: -16px; height: 22px; z-index: -1; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask: linear-gradient(#000 40%, transparent); mask: linear-gradient(#000 40%, transparent); pointer-events: none; }
+        html[data-look="pulse"] .x-bar { background: rgb(14 20 32 / 0.86); }
+        html[data-look="pulse"][data-theme="light"] .x-bar { background: rgb(255 255 255 / 0.9); }
+        .x-card { padding: 16px; }
       }
+      @keyframes x-sheet { from { opacity: 0; transform: translateY(16px); } }
+      .x-pn { display: inline-flex; gap: 8px; }
+      .x-list, .x-card { grid-template-columns: minmax(0, 1fr); }
+      .x-card > *, .x-wid > * { min-width: 0; }
+      .x-card li, .x-card p { overflow-wrap: anywhere; }
+      .x-area { field-sizing: content; }
       html[data-look="pulse"] .x-top .x-title { text-shadow: 0 1px 10px rgb(0 0 0 / 0.5); }
       html[data-look="pulse"][data-theme="light"] .x-top .x-title { text-shadow: none; }
       html[data-look="pulse"] .x-top .chip--solid { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
@@ -579,7 +591,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
           .sort((x, y) => x.t - y.t);
         $("#" + day.id).innerHTML = `<div class="head"><p class="head__eyebrow">Day ${day.n} · ${day.label}</p><h2>${day.n === 1 ? "Discipline: from rule to appeal." : "Performance, EEO and accommodation."}</h2></div>
           <div class="x-tools">${seg("Time zone", ["Agenda times", "Japan time"], "Agenda times").replace("x-seg", "x-seg x-timeseg")}
-            <button class="btn" type="button" data-act="prev">Prev (K)</button><button class="btn" type="button" data-act="next">Next (J)</button></div>
+            <span class="x-pn"><button class="btn" type="button" data-act="prev">Prev<span class="x-kbd">&nbsp;(K)</span></button><button class="btn" type="button" data-act="next">Next<span class="x-kbd">&nbsp;(J)</span></button></span></div>
           <p class="fineprint">Japan time assumes US Eastern (+14h; 9:00 AM ET ${day.n === 1 ? "Nov 4 = 11:00 PM JST Wed" : "Nov 5 = 11:00 PM JST Thu"}). Handout doesn't state the zone; check your class link.</p>
           <ol class="x-list">${items.map((i) => i.html).join("")}</ol>`;
       }
