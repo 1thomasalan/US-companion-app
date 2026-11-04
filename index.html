@@ -202,6 +202,26 @@
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="ocean"] { --sw: radial-gradient(120% 90% at 50% 110%, #9fe0e0, #c4e2f0 40%, #e4eef8 75%) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="forest"] { --sw: radial-gradient(120% 90% at 50% 110%, #cfe0a8, #cfe2d3 40%, #e7efea 75%) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
       html[data-look="pulse"][data-theme="light"] .x-skies button[data-v="midnight"] { --sw: radial-gradient(120% 90% at 50% 110%, #c9d0de, #e3e7ef 50%, #f7f8fb) !important; box-shadow: inset 0 0 0 1px rgb(27 32 51 / 0.15); }
+      /* ---- Phone header: controls row above, full-width tabs ---- */
+      .x-top { display: none; }
+      .t-short { display: none; }
+      @media (max-width: 640px) {
+        .x-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 2px 0; margin-bottom: -4px; }
+        .x-title { font: var(--type-label); color: var(--text-primary); line-height: 1.15; min-width: 0; }
+        .x-title span { display: block; font: var(--type-caption); color: var(--text-secondary); }
+        .x-top .x-right { gap: 8px; }
+        .x-top .theme-btn, .x-top .x-gear { width: 40px; height: 40px; background: var(--fill-tertiary); color: var(--text-primary); border: 1px solid var(--stroke-secondary); }
+        .x-top .chip--solid { padding: 6px 12px 6px 10px; }
+        .x-bar { padding: 4px; }
+        .x-tabs { flex: 1; overflow: visible; }
+        .x-tabs button { flex: 1 1 0; min-width: 0; padding: 8px 2px; font-size: 13px; text-align: center; }
+        .t-full { display: none; }
+        .t-short { display: inline; }
+        .x-settings { top: calc(env(safe-area-inset-top, 0px) + 60px); right: 16px; }
+      }
+      html[data-look="pulse"] .x-top .x-title { text-shadow: 0 1px 10px rgb(0 0 0 / 0.5); }
+      html[data-look="pulse"][data-theme="light"] .x-top .x-title { text-shadow: none; }
+      html[data-look="pulse"] .x-top .chip--solid { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
       @media (prefers-reduced-motion: reduce) { .x-settings { animation: none; } .x-gear { transition: none; } }
     </style>
       <!-- Fathom - beautiful, simple website analytics -->
@@ -210,6 +230,7 @@
   </head>
   <body>
     <div class="page" id="top">
+      <div class="x-top" id="xtop"><span class="x-title">UnCivil Servant <span>Class Companion</span></span></div>
       <header class="nav glass x-bar">
         <nav class="x-tabs" role="tablist" aria-label="Tabs" id="tabs"></nav>
         <span class="x-right">
@@ -496,7 +517,7 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
 
       // ---- Tabs ----
       const panels = [...document.querySelectorAll("[data-tab]")];
-      $("#tabs").innerHTML = panels.map((p) => `<button type="button" role="tab" data-id="${p.id}" aria-selected="${p.id === S.tab}">${p.dataset.tab}</button>`).join("");
+      $("#tabs").innerHTML = panels.map((p) => `<button type="button" role="tab" data-id="${p.id}" aria-selected="${p.id === S.tab}" aria-label="${p.dataset.tab}"><span class="t-full">${p.dataset.tab}</span><span class="t-short" aria-hidden="true">${({ "Briefing": "Brief", "Cheat Sheet": "Cheat" })[p.dataset.tab] || p.dataset.tab}</span></button>`).join("");
       function show(id) {
         S.tab = id;
         panels.forEach((p) => (p.hidden = p.id !== id));
@@ -505,6 +526,12 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         window.scrollTo(0, 0);
       }
       $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) show(b.dataset.id); });
+      // Phones: controls move to a row above the menu so the tabs get the full width.
+      (function () {
+        const mq = matchMedia("(max-width: 640px)"), right = document.querySelector(".x-right"), bar = $(".x-bar"), top = $("#xtop");
+        const place = () => { if (mq.matches) top.appendChild(right); else bar.appendChild(right); if (typeof swipeHint === "function") swipeHint(); };
+        mq.addEventListener ? mq.addEventListener("change", place) : mq.addListener(place); place();
+      })();
       function swipeHint() { const t = $("#tabs"); $("#swipehint").hidden = t.scrollWidth <= t.clientWidth + 2 || t.scrollLeft > 8; }
       $("#tabs").addEventListener("scroll", swipeHint, { passive: true });
       window.addEventListener("resize", swipeHint);
