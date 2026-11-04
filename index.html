@@ -22,6 +22,7 @@
       .x-seg { display: inline-flex; background: var(--fill-tertiary); padding: 3px; gap: 2px; }
       .x-seg button { flex: none; padding: 5px 12px; border: 0; border-radius: var(--r-pill); background: none; font: var(--type-tag); color: var(--text-secondary); cursor: pointer; }
       .x-seg button[aria-pressed="true"] { background: var(--fill-primary); color: var(--text-primary-on); }
+      .x-swipe { font: var(--type-caption); color: var(--text-secondary); text-align: center; margin-top: -4px; }
       .x-banner { font: var(--type-caption); color: var(--text-secondary); text-align: center; }
       [hidden] { display: none !important; }
       .x-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
@@ -82,6 +83,7 @@
           <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch to dark theme"></button>
         </span>
       </header>
+      <p class="x-swipe" id="swipehint" hidden>Swipe the menu sideways to see more tabs →</p>
       <p class="x-banner" id="savebanner">Your notes and answers save automatically on this device and browser. Download a copy to keep a backup.</p>
       <main class="main">
         <section class="section" id="briefing" data-tab="Briefing">
@@ -356,6 +358,10 @@ Can the Letter of Requirement period count as pre-PIP evidence?</textarea>
         window.scrollTo(0, 0);
       }
       $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) show(b.dataset.id); });
+      function swipeHint() { const t = $("#tabs"); $("#swipehint").hidden = t.scrollWidth <= t.clientWidth + 2 || t.scrollLeft > 8; }
+      $("#tabs").addEventListener("scroll", swipeHint, { passive: true });
+      window.addEventListener("resize", swipeHint);
+      requestAnimationFrame(swipeHint); window.addEventListener("load", swipeHint);
 
       // ---- Briefing ----
       $("#takeaways").innerHTML = TAKEAWAYS.map(([h, t], i) => `<div><h3>${i + 1}. ${esc(h)}</h3><p>${esc(t)}</p></div>`).join("");
